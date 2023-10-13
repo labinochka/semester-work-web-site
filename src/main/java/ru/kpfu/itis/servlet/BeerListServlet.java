@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("")
+@WebServlet("/types")
 public class BeerListServlet extends HttpServlet {
 
     private BeerService service;
