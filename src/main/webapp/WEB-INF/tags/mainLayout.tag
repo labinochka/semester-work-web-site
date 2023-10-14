@@ -27,7 +27,7 @@
                     <a class="nav-link" aria-current="page" href="<c:url value="/"/>">О сайте</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Вход</a>
+                    <a class="nav-link" href="#">Профиль</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value="/types"/>">Виды</a>
@@ -36,12 +36,15 @@
                     <a class="nav-link" href="#">Статьи</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Написать статью</a>
+                    <a class="nav-link" href="#">Создать</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<jsp:doBody/>
+<%--<%@ include file="/WEB-INF/parts/_nav.jsp" %>--%>
+<div class="container">
+    <jsp:doBody/>
+</div>
 </body>
 </html>
