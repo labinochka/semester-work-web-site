@@ -11,7 +11,7 @@
         <img src="${beer.image()}" class="rounded img-thumbnail">
         <br>
         <br>
-        <p">
+        <p>
             <font size="5">${beer.content()}</font>
         </p>
         <br>
