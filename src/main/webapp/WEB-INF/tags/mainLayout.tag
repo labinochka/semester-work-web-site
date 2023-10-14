@@ -30,7 +30,7 @@
                     <a class="nav-link" href="#">Профиль</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/types"/>">Виды</a>
+                    <a class="nav-link" href="<c:url value="/types/list"/>">Виды</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Статьи</a>

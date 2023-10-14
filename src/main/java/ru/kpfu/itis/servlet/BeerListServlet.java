@@ -1,6 +1,6 @@
 package ru.kpfu.itis.servlet;
 
-import ru.kpfu.itis.dao.BeerDAO;
+import ru.kpfu.itis.service.BeerService;
 import ru.kpfu.itis.util.DbException;
 
 import javax.servlet.ServletConfig;
@@ -11,26 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/types")
+@WebServlet("/types/list")
 public class BeerListServlet extends HttpServlet {
 
-    private BeerDAO beerDAO;
+    private BeerService beerService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        beerDAO = (BeerDAO) getServletContext().getAttribute("beerDAO");
+        beerService = (BeerService) getServletContext().getAttribute("beerService");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            req.setAttribute("beersAle", beerDAO.getBeers("Эль"));
-            req.setAttribute("beersLager", beerDAO.getBeers("Лагер"));
-            req.setAttribute("beersMixed", beerDAO.getBeers("Смешанное"));
-        } catch (DbException e) {
-            throw new ServletException(e);
-        }
+        req.setAttribute("beersAle", beerService.getBeers("Эль"));
+        req.setAttribute("beersLager", beerService.getBeers("Лагер"));
+        req.setAttribute("beersMixed", beerService.getBeers("Смешанное"));
         req.getRequestDispatcher("/WEB-INF/view/beers/listBeer.jsp").forward(req, resp);
     }
 }
