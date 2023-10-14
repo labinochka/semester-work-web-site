@@ -6,6 +6,8 @@
     <div class="text-center">
         <br>
         <br>
+        <p class="h1">${beer.type()}</p>
+        <br>
         <img src="${beer.image()}" class="rounded img-thumbnail">
         <br>
         <br>
