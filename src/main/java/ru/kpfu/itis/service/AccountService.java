@@ -24,4 +24,20 @@ public class AccountService {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean findByUsername(String username) {
+        try {
+            return accountDao.findByUsername(username);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean findByEmail(String email) {
+        try {
+            return accountDao.findByEmail(email);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

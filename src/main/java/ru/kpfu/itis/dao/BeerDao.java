@@ -60,7 +60,7 @@ public class BeerDao {
         }
     }
 
-    public static Beer extractBeer(ResultSet result) throws DbException {
+    public Beer extractBeer(ResultSet result) throws DbException {
         Beer beer = null;
         try {
             beer = new Beer((UUID) result.getObject("uuid"),

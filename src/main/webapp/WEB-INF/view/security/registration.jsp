@@ -11,7 +11,7 @@
             <form id="formRegistration" action="${pageContext.request.contextPath}/registration" method="post">
 
                 <div class="col-md-12 d-flex justify-content-center">
-                    <p style="color:red" >${error}</p>
+                    <p style="color:red">${error}</p>
                 </div>
 
                 <div class="col-md-12 d-flex justify-content-center">
@@ -75,6 +75,13 @@
                 </div>
 
             </form>
+            <div class="d-flex justify-content-center">
+                <a href="<c:url value="/sign-in"/>">
+                <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
+                    Выйти
+                </button>
+                </a>
+            </div>
             <br>
             <br>
         </div>

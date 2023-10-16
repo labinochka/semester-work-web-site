@@ -2,7 +2,6 @@ package ru.kpfu.itis.servlet;
 
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.BeerService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -43,11 +42,19 @@ public class RegistrationServlet extends HttpServlet {
         Date date = new Date(Integer.parseInt(birthday[2]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[0]));
         Date currentDate = new Date();
 
-        if (((currentDate.getYear() + 1900) - date.getYear()) < 18) {
+        if (accountService.findByUsername(username)) {
+            String error = "Этот логин уже используется";
+            req.setAttribute("error", error);
+            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
+        } else if (((currentDate.getYear() + 1900) - date.getYear()) < 18) {
             String error = "Вам нет 18";
             req.setAttribute("error", error);
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (!password.equals(repeatPassword)) {
+        } else if (accountService.findByEmail(email)){
+            String error = "Аккаунт с этой почтой уже существует";
+            req.setAttribute("error", error);
+            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
+        }else if (!password.equals(repeatPassword)) {
             System.out.println(password + " " + repeatPassword);
             String error = "Пароли не совпадают";
             req.setAttribute("error", error);
