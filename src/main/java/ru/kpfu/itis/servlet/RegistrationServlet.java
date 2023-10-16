@@ -1,6 +1,6 @@
 package ru.kpfu.itis.servlet;
 
-import ru.kpfu.itis.model.Account;
+import ru.kpfu.itis.dto.AccountDto;
 import ru.kpfu.itis.service.AccountService;
 
 import javax.servlet.ServletConfig;
@@ -31,6 +31,9 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+
         String username = req.getParameter("login");
         String name = req.getParameter("name");
         String lastname = req.getParameter("lastname");
@@ -42,28 +45,23 @@ public class RegistrationServlet extends HttpServlet {
         Date date = new Date(Integer.parseInt(birthday[2]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[0]));
         Date currentDate = new Date();
 
-        if (accountService.findByUsername(username)) {
-            String error = "Этот логин уже используется";
-            req.setAttribute("error", error);
+        if (accountService.findByUsername(username) != null) {
+            req.setAttribute("error", "Этот логин уже используется");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
         } else if (((currentDate.getYear() + 1900) - date.getYear()) < 18) {
-            String error = "Вам нет 18";
-            req.setAttribute("error", error);
+            req.setAttribute("error", "Вам нет 18");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (accountService.findByEmail(email)){
-            String error = "Аккаунт с этой почтой уже существует";
-            req.setAttribute("error", error);
+        } else if (accountService.findByEmail(email) != null) {
+            req.setAttribute("error", "Аккаунт с этой почтой уже существует");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        }else if (!password.equals(repeatPassword)) {
+        } else if (!password.equals(repeatPassword)) {
             System.out.println(password + " " + repeatPassword);
-            String error = "Пароли не совпадают";
-            req.setAttribute("error", error);
+            req.setAttribute("error", "Пароли не совпадают");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
         } else {
-            Account account = new Account(null, username, name, lastname, date, email, password,
-                    null, null);
+            AccountDto account = new AccountDto(username, name, lastname, date, email, password);
             accountService.save(account);
-            req.getRequestDispatcher("/WEB-INF/view/security/signIn.jsp").forward(req, resp);
+            resp.sendRedirect(getServletContext().getContextPath() + "/sign-in");
         }
     }
 }

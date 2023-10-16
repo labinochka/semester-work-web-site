@@ -26,12 +26,12 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="<c:url value="/"/>">О сайте</a>
                 </li>
-                <c:if test="${sessionScope.account}">
+                <c:if test="${sessionScope.account != null}">
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/profile"/>">Профиль</a>
                     </li>
                 </c:if>
-                <c:if test="${!sessionScope.account}">
+                <c:if test="${sessionScope.account == null}">
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/sign-in"/>">Войти</a>
                     </li>
@@ -42,7 +42,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Статьи</a>
                 </li>
-                <c:if test="${sessionScope.account}">
+                <c:if test="${sessionScope.account != null}">
                     <li class="nav-item">
                         <a class="nav-link" href="#">Создать</a>
                     </li>

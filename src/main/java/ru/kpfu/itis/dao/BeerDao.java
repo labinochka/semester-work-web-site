@@ -61,7 +61,7 @@ public class BeerDao {
     }
 
     public Beer extractBeer(ResultSet result) throws DbException {
-        Beer beer = null;
+        Beer beer;
         try {
             beer = new Beer((UUID) result.getObject("uuid"),
                     result.getString("sort"),

@@ -17,7 +17,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-4">
                         <input type="text" id="login" name="login" class="form-control" required/>
-                        <label class="form-label" for="login">Логин</label>
+                        <label class="form-label" for="login">Логин или электронная почта</label>
                     </div>
                 </div>
 

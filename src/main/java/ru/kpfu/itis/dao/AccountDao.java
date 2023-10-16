@@ -1,7 +1,7 @@
 package ru.kpfu.itis.dao;
 
+import ru.kpfu.itis.dto.AccountDto;
 import ru.kpfu.itis.model.Account;
-import ru.kpfu.itis.model.Beer;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
 import ru.kpfu.itis.util.PasswordUtil;
@@ -32,13 +32,13 @@ public class AccountDao {
     }
 
 
-    public void save(Account account)
+    public void save(AccountDto account)
             throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_SAVE);
             String date = String.format("%s-%s-%s", account.birthday().getYear(), account.birthday().getMonth(),
-                    account.birthday().getDay());
+                    account.birthday().getDate());
             preparedStatement.setString(1, account.username());
             preparedStatement.setString(2, account.name());
             preparedStatement.setString(3, account.lastname());
@@ -52,32 +52,57 @@ public class AccountDao {
         }
     }
 
-    public Boolean findByUsername(String username) throws DbException {
-        ResultSet resultPrepSet = null;
-        Boolean res = null;
+    public Account findByUsername(String username) throws DbException {
+        ResultSet resultPrepSet;
         try {
             PreparedStatement prepStatement = connectionProvider.getConnection().prepareStatement(SQL_GET_BY_USERNAME);
             prepStatement.setString(1, username);
             resultPrepSet = prepStatement.executeQuery();
-            res = resultPrepSet.next();
+            boolean res = resultPrepSet.next();
+            if (res) {
+                return extractAccount(resultPrepSet);
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             throw new DbException("Can't get account from db.", e);
         }
-        return res;
     }
 
-    public Boolean findByEmail(String email) throws DbException {
-        ResultSet resultPrepSet = null;
-        Boolean res = null;
+    public Account findByEmail(String email) throws DbException {
+        ResultSet resultPrepSet;
         try {
             PreparedStatement prepStatement = connectionProvider.getConnection().prepareStatement(SQL_GET_BY_EMAIL);
             prepStatement.setString(1, email);
             resultPrepSet = prepStatement.executeQuery();
-            res = resultPrepSet.next();
+            boolean res = resultPrepSet.next();
+            if (res) {
+                return extractAccount(resultPrepSet);
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             throw new DbException("Can't get account from db.", e);
         }
-        return res;
+    }
+
+    public Account extractAccount(ResultSet result) throws DbException {
+         Account account = null;
+        try {
+            account = new Account((UUID) result.getObject("uuid"),
+                    result.getString("username"),
+                    result.getString("name"),
+                    result.getString("lastname"),
+                    (Date) result.getObject("birthday"),
+                    result.getString("email"),
+                    result.getString("password"),
+                    result.getString("avatar"),
+                    result.getString("about"));
+            return account;
+
+        } catch (SQLException e) {
+            throw new DbException("Can't get beer from db.", e);
+        }
     }
 
 }
