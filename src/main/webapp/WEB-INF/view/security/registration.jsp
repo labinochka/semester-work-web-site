@@ -16,7 +16,7 @@
 
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-4">
-                        <input type="text" id="login" name="login" class="form-control" required/>
+                        <input type="text" id="login" name="login" class="form-control" minlength="6" required/>
                         <label class="form-label" for="login">Логин</label>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="name" name="name" class="form-control" required/>
+                        <input type="text" id="name" name="name" class="form-control" minlength="2" required/>
                         <label class="form-label" for="name">Имя</label>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="lastname" name="lastname" class="form-control" required/>
+                        <input type="text" id="lastname" name="lastname" class="form-control" minlength="2" required/>
                         <label class="form-label" for="lastname">Фамилия</label>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="birthday" name="birthday" class="form-control" required/>
+                        <input type="text" id="birthday" name="birthday" class="form-control" minlength="10" required/>
                         <label class="form-label" for="birthday">Дата рождения DD.MM.YYYY</label>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="email" name="email" class="form-control" required/>
+                        <input type="text" id="email" name="email" class="form-control" minlength="5" required/>
                         <label class="form-label" for="email">Электронная почта</label>
                     </div>
                 </div>
@@ -56,7 +56,8 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="password" id="password" name="password" class="form-control" required/>
+                        <input type="password" id="password" name="password" class="form-control" minlength="6"
+                               required/>
                         <label class="form-label" for="password">Пароль</label>
                     </div>
                 </div>
@@ -64,7 +65,8 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" required/>
+                        <input type="password" id="repeatPassword" name="repeatPassword" class="form-control"
+                               minlength="6" required/>
                         <label class="form-label" for="repeatPassword">Пароль еще раз</label>
                     </div>
                 </div>
@@ -77,9 +79,9 @@
             </form>
             <div class="d-flex justify-content-center">
                 <a href="<c:url value="/sign-in"/>">
-                <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
-                    Выйти
-                </button>
+                    <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
+                        Выйти
+                    </button>
                 </a>
             </div>
             <br>
