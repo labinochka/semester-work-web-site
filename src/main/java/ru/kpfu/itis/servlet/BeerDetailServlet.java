@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @WebServlet("/types/detail")
 public class BeerDetailServlet extends HttpServlet {
+
     private BeerService beerService;
 
     @Override

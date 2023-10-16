@@ -26,18 +26,27 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="<c:url value="/"/>">О сайте</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Профиль</a>
-                </li>
+                <c:if test="${sessionScope.account}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/profile"/>">Профиль</a>
+                    </li>
+                </c:if>
+                <c:if test="${!sessionScope.account}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/sign-in"/>">Войти</a>
+                    </li>
+                </c:if>
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value="/types/list"/>">Виды</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Статьи</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Создать</a>
-                </li>
+                <c:if test="${sessionScope.account}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Создать</a>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
