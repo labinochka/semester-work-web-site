@@ -37,27 +37,14 @@ public class SignInServlet extends HttpServlet {
         String password = PasswordUtil.encrypt(req.getParameter("password"));
         String rememberMe = req.getParameter("check");
 
-        Account account;
-
-        if (username.contains("@")) {
-            account = accountService.findByEmail(username);
-        } else {
-            account = accountService.findByUsername(username);
-        }
+        Account account = accountService.getByUsernameAndPassword(username, password);
 
         if (account == null) {
-            req.setAttribute("error", "Аккаунт не найден");
+            req.setAttribute("error", "Неверный логин или пароль");
             req.getRequestDispatcher("/WEB-INF/view/security/signIn.jsp").forward(req, resp);
         } else {
-            if (account.password().equals(password)) {
-                accountService.auth(account, req, resp);
-                req.setAttribute("account", account);
-                req.getRequestDispatcher("/WEB-INF/view/profile/profile.jsp").forward(req, resp);
-            }
-            else {
-                req.setAttribute("error", "Неверный логин или пароль");
-                req.getRequestDispatcher("/WEB-INF/view/security/signIn.jsp").forward(req, resp);
-            }
+            accountService.auth(account, req, resp);
+            resp.sendRedirect(getServletContext().getContextPath() + "/profile");
         }
     }
 }

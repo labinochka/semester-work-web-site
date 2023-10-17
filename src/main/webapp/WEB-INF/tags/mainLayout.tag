@@ -44,14 +44,13 @@
                 </li>
                 <c:if test="${sessionScope.account != null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Создать</a>
+                        <a class="nav-link" href="#">Написать статью</a>
                     </li>
                 </c:if>
             </ul>
         </div>
     </div>
 </nav>
-<%--<%@ include file="/WEB-INF/parts/_nav.jsp" %>--%>
 <div class="container">
     <jsp:doBody/>
 </div>

@@ -1,7 +1,7 @@
 package ru.kpfu.itis.service;
 
 import ru.kpfu.itis.dao.AccountDao;
-import ru.kpfu.itis.dto.AccountDto;
+import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -29,7 +29,7 @@ public class AccountService {
         return req.getSession().getAttribute("account") != null;
     }
 
-    public void save(AccountDto account) {
+    public void save(AccountRegistrationDto account) {
         try {
             accountDao.save(account);
         } catch (DbException e) {
@@ -48,6 +48,14 @@ public class AccountService {
     public Account findByEmail(String email) {
         try {
             return accountDao.findByEmail(email);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Account getByUsernameAndPassword(String username, String password) {
+        try {
+            return accountDao.getUserByUsernameAndPassword(username, password);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

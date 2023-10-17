@@ -1,6 +1,6 @@
 package ru.kpfu.itis.servlet;
 
-import ru.kpfu.itis.dto.AccountDto;
+import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.service.AccountService;
 
 import javax.servlet.ServletConfig;
@@ -59,7 +59,7 @@ public class RegistrationServlet extends HttpServlet {
             req.setAttribute("error", "Пароли не совпадают");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
         } else {
-            AccountDto account = new AccountDto(username, name, lastname, date, email, password);
+            AccountRegistrationDto account = new AccountRegistrationDto(username, name, lastname, date, email, password);
             accountService.save(account);
             resp.sendRedirect(getServletContext().getContextPath() + "/sign-in");
         }
