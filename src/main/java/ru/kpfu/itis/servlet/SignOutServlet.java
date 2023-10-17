@@ -1,5 +1,8 @@
 package ru.kpfu.itis.servlet;
 
+import ru.kpfu.itis.service.AccountService;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,9 +13,17 @@ import java.io.IOException;
 @WebServlet("/sign-out")
 public class SignOutServlet extends HttpServlet {
 
+    private AccountService accountService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        accountService = (AccountService) getServletContext().getAttribute("accountService");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().removeAttribute("account");
+        accountService.deleteSessionAndCookie(req, resp);
         resp.sendRedirect(getServletContext().getContextPath() + "/sign-in");
     }
 }

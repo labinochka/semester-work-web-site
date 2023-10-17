@@ -6,12 +6,19 @@ import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AccountService {
 
     private AccountDao accountDao;
+
+    private final String SESSION_NAME = "account";
+    private final String COOKIE_NAME = "username";
+    private final static int COOKIE_MAX_AGE = 60 * 60 * 12;
+    private final static int COOKIE_MIN_AGE = 0;
 
     public AccountService() {
         try {
@@ -21,12 +28,38 @@ public class AccountService {
         }
     }
 
-    public void auth(Account account, HttpServletRequest req, HttpServletResponse resp) {
-        req.getSession().setAttribute("account", account);
+    public void auth(Account account, HttpServletRequest req) {
+        req.getSession().setAttribute(SESSION_NAME, account);
     }
 
-    public boolean isNonAnonymous(Account account, HttpServletRequest req, HttpServletResponse resp) {
-        return req.getSession().getAttribute("account") != null;
+    public Account getSession(HttpServletRequest req) {
+        return (Account) req.getSession().getAttribute(SESSION_NAME);
+    }
+
+    public void deleteSessionAndCookie(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().removeAttribute(SESSION_NAME);
+        Cookie cookie = new Cookie(COOKIE_NAME, "");
+        cookie.setMaxAge(COOKIE_MIN_AGE);
+        resp.addCookie(cookie);
+    }
+
+    public boolean isNonAnonymous(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(COOKIE_NAME)) {
+                String username = cookie.getValue();
+                req.getSession().setAttribute(SESSION_NAME, getByUsernameOrEmail(username));
+                return true;
+            }
+        }
+        return session.getAttribute(SESSION_NAME) != null;
+    }
+
+    public void addCookie(String username, HttpServletResponse resp) {
+        Cookie cookie = new Cookie(COOKIE_NAME, username);
+        cookie.setMaxAge(COOKIE_MAX_AGE);
+        resp.addCookie(cookie);
     }
 
     public void save(AccountRegistrationDto account) {
@@ -37,17 +70,17 @@ public class AccountService {
         }
     }
 
-    public Account findByUsername(String username) {
+    public Account getByUsername(String username) {
         try {
-            return accountDao.findByUsername(username);
+            return accountDao.getByUsername(username);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Account findByEmail(String email) {
+    public Account getByEmail(String email) {
         try {
-            return accountDao.findByEmail(email);
+            return accountDao.getByEmail(email);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
@@ -61,4 +94,11 @@ public class AccountService {
         }
     }
 
+    public Account getByUsernameOrEmail(String username) {
+        if (username.contains("@")) {
+            return getByEmail(username);
+        } else {
+            return getByUsername(username);
+        }
+    }
 }

@@ -45,13 +45,13 @@ public class RegistrationServlet extends HttpServlet {
         Date date = new Date(Integer.parseInt(birthday[2]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[0]));
         Date currentDate = new Date();
 
-        if (accountService.findByUsername(username) != null) {
+        if (accountService.getByUsername(username) != null) {
             req.setAttribute("error", "Этот логин уже используется");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
         } else if (((currentDate.getYear() + 1900) - date.getYear()) < 18) {
             req.setAttribute("error", "Вам нет 18");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (accountService.findByEmail(email) != null) {
+        } else if (accountService.getByEmail(email) != null) {
             req.setAttribute("error", "Аккаунт с этой почтой уже существует");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
         } else if (!password.equals(repeatPassword)) {

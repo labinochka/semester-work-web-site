@@ -51,7 +51,7 @@ public class AccountDao {
         }
     }
 
-    public Account findByUsername(String username) throws DbException {
+    public Account getByUsername(String username) throws DbException {
         ResultSet resultPrepSet;
         try {
             PreparedStatement prepStatement = connectionProvider.getConnection().prepareStatement(SQL_GET_BY_USERNAME);
@@ -68,7 +68,7 @@ public class AccountDao {
         }
     }
 
-    public Account findByEmail(String email) throws DbException {
+    public Account getByEmail(String email) throws DbException {
         ResultSet resultPrepSet;
         try {
             PreparedStatement prepStatement = connectionProvider.getConnection().prepareStatement(SQL_GET_BY_EMAIL);
@@ -88,9 +88,9 @@ public class AccountDao {
     public Account getUserByUsernameAndPassword(String username, String password) throws DbException {
         Account account;
         if (username.contains("@")) {
-            account = findByEmail(username);
+            account = getByEmail(username);
         } else {
-            account = findByUsername(username);
+            account = getByUsername(username);
         }
         if (account != null) {
             if (account.password().equals(password)) {

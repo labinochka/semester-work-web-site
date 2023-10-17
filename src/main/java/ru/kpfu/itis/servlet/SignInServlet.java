@@ -43,7 +43,10 @@ public class SignInServlet extends HttpServlet {
             req.setAttribute("error", "Неверный логин или пароль");
             req.getRequestDispatcher("/WEB-INF/view/security/signIn.jsp").forward(req, resp);
         } else {
-            accountService.auth(account, req, resp);
+            if (rememberMe != null) {
+                accountService.addCookie(username, resp);
+            }
+            accountService.auth(account, req);
             resp.sendRedirect(getServletContext().getContextPath() + "/profile");
         }
     }
