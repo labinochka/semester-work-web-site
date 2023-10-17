@@ -21,6 +21,7 @@ public class ProfileServlet extends HttpServlet {
         super.init(config);
         accountService = (AccountService) getServletContext().getAttribute("accountService");
     }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
