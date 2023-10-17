@@ -32,7 +32,7 @@ public class AccountService {
         req.getSession().setAttribute(SESSION_NAME, account);
     }
 
-    public Account getSession(HttpServletRequest req) {
+    public Account getAccount(HttpServletRequest req) {
         return (Account) req.getSession().getAttribute(SESSION_NAME);
     }
 

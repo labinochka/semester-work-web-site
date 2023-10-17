@@ -26,7 +26,7 @@ public class ProfileServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         if (accountService.isNonAnonymous(req)) {
-            Account account = accountService.getSession(req);
+            Account account = accountService.getAccount(req);
             req.setAttribute("account", account);
             req.getRequestDispatcher("/WEB-INF/view/profile/profile.jsp").forward(req, resp);
         } else {
