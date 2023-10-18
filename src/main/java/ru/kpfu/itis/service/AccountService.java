@@ -1,6 +1,7 @@
 package ru.kpfu.itis.service;
 
 import ru.kpfu.itis.dao.AccountDao;
+import ru.kpfu.itis.dto.AccountAuthorDto;
 import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
@@ -10,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 public class AccountService {
 
@@ -81,6 +83,14 @@ public class AccountService {
     public Account getByEmail(String email) {
         try {
             return accountDao.getByEmail(email);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public AccountAuthorDto getById(UUID id) {
+        try {
+            return accountDao.getById(id);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

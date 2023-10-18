@@ -1,14 +1,16 @@
 package ru.kpfu.itis.model;
 
+import ru.kpfu.itis.dto.AccountAuthorDto;
+
 import java.util.Date;
 import java.util.UUID;
 
 public record Post(
         UUID uuid,
-        String author,
-        String type,
+        AccountAuthorDto author,
         Date date,
         String title,
-        String content
+        String content,
+        String image
 ) {
 }

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.servlet;
+package ru.kpfu.itis.servlet.beer;
 
 import ru.kpfu.itis.service.BeerService;
 import ru.kpfu.itis.util.DbException;

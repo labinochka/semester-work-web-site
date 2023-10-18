@@ -1,5 +1,6 @@
 package ru.kpfu.itis.dao;
 
+import ru.kpfu.itis.dto.AccountAuthorDto;
 import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
@@ -25,6 +26,9 @@ public class AccountDao {
 
     //language=sql
     final String SQL_GET_BY_EMAIL = "select * from account where email = ?";
+
+    //language=sql
+    final String SQL_GET_BY_UUID = "select * from account where uuid = cast(? as uuid)";
 
     public AccountDao(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -59,7 +63,7 @@ public class AccountDao {
             resultPrepSet = prepStatement.executeQuery();
             boolean res = resultPrepSet.next();
             if (res) {
-                return extractAccount(resultPrepSet);
+                return extract(resultPrepSet);
             } else {
                 return null;
             }
@@ -76,7 +80,25 @@ public class AccountDao {
             resultPrepSet = prepStatement.executeQuery();
             boolean res = resultPrepSet.next();
             if (res) {
-                return extractAccount(resultPrepSet);
+                return extract(resultPrepSet);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new DbException("Can't get account from db.", e);
+        }
+    }
+
+    public AccountAuthorDto getById(UUID id) throws DbException {
+        ResultSet resultPrepSet;
+        try {
+            PreparedStatement prepStatement = connectionProvider.getConnection().prepareStatement(SQL_GET_BY_UUID);
+            prepStatement.setObject(1, id);
+            resultPrepSet = prepStatement.executeQuery();
+            boolean res = resultPrepSet.next();
+            if (res) {
+                return new AccountAuthorDto((UUID) resultPrepSet.getObject("uuid"),
+                        resultPrepSet.getString("username"));
             } else {
                 return null;
             }
@@ -100,7 +122,7 @@ public class AccountDao {
         return null;
     }
 
-    public Account extractAccount(ResultSet result) throws DbException {
+    public Account extract(ResultSet result) throws DbException {
         Account account = null;
         try {
             account = new Account((UUID) result.getObject("uuid"),

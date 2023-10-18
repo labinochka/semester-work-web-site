@@ -1,4 +1,4 @@
-package ru.kpfu.itis.servlet;
+package ru.kpfu.itis.servlet.security;
 
 import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.service.AccountService;

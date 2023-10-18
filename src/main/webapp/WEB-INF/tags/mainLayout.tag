@@ -36,10 +36,13 @@
                     <a class="nav-link" href="<c:url value="/types/list"/>">Виды</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Статьи</a>
+                    <a class="nav-link" href="<c:url value="/posts/list"/>">Статьи</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Написать статью</a>
+                    <a class="nav-link" href="<c:url value="/create"/>">Написать статью</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Поиск</a>
                 </li>
             </ul>
         </div>

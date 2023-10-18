@@ -1,4 +1,4 @@
-package ru.kpfu.itis.servlet;
+package ru.kpfu.itis.servlet.about;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

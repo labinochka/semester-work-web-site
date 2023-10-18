@@ -34,7 +34,7 @@ public class BeerDao {
             preparedStatement.setString(1, sort);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                beers.add(extractBeer(resultSet));
+                beers.add(extract(resultSet));
             }
             return beers;
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class BeerDao {
             ResultSet result = preparedStatement.executeQuery();
             boolean hasOne = result.next();
             if (hasOne) {
-                return extractBeer(result);
+                return extract(result);
             } else {
                 return null;
             }
@@ -60,7 +60,7 @@ public class BeerDao {
         }
     }
 
-    public Beer extractBeer(ResultSet result) throws DbException {
+    public Beer extract(ResultSet result) throws DbException {
         Beer beer;
         try {
             beer = new Beer((UUID) result.getObject("uuid"),
