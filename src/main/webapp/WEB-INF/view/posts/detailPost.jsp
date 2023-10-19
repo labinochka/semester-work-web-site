@@ -8,8 +8,10 @@
         <br>
         <p class="h1">${post.title()}</p>
         <br>
-        <p class="h1">${post.author().username()}</p>
-        <img src="${post.image()}" class="rounded img-thumbnail" alt="MISSING GIF"/>
+        <p class="h4">Автор: ${post.author().username()}</p>
+        <br>
+        <p class="h6">Дата публикации: ${post.date().getDate()}.${post.date().getMonth()}.${post.date().getYear()}</p>
+        <img src="${post.image()}" class="rounded img-thumbnail"/>
         <br>
         <br>
         <p>

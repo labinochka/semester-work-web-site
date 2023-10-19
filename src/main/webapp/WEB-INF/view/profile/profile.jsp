@@ -14,8 +14,7 @@
                                                        class="rounded mb-2 img-thumbnail">
                             <div class="media-body mb-5">
                                 <h4 class="mt-0 mb-0">${account.username()}</h4>
-                                <p class="small mb-4">${account.name()}</p>
-                                <p class="small mb-4">${account.lastname()}</p>
+                                <p class="small mb-4">${account.name()} ${account.lastname()}</p>
                                 <p class="small mb-4">${account.email()}</p>
                             </div>
                             <a href="#" class="btn btn-primary btn-sm btn-block">Редактировать</a>
