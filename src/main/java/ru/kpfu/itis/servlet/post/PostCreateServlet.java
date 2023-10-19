@@ -4,17 +4,20 @@ package ru.kpfu.itis.servlet.post;
 import ru.kpfu.itis.dto.PostDto;
 import ru.kpfu.itis.service.AccountService;
 import ru.kpfu.itis.service.PostService;
+import ru.kpfu.itis.util.ImageUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 
+@MultipartConfig
 @WebServlet("/create")
 public class PostCreateServlet extends HttpServlet {
     AccountService accountService;
@@ -42,8 +45,10 @@ public class PostCreateServlet extends HttpServlet {
         String content = req.getParameter("content");
         Part image = req.getPart("image");
 
+        String[] file = image.getSubmittedFileName().split("\\.");
+        String fileName = file[0] + "author-" + accountService.getAccount(req).uuid().toString() + "." + file[1];
         PostDto post = new PostDto(accountService.getAccount(req), dateOfPublication, title, content,
-                image.getSubmittedFileName());
+                ImageUtil.makeFile(image, fileName, req));
         postService.save(post);
         resp.sendRedirect(getServletContext().getContextPath() + "/posts/list");
 

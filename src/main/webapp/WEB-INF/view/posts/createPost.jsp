@@ -31,9 +31,8 @@
                     <input id="image" name="image" type="file" accept=".jpg, .png, .jpeg"
                            class="btn btn-secondary mb-4">Загрузить изображение</input>
                 </div>
-
                 <div class="d-flex justify-content-center">
-                    <button id="signInBtn" type="submit" class="btn btn-primary mb-4">Опубликовать</button>
+                    <button id="submit" type="submit" class="btn btn-primary mb-4">Опубликовать</button>
                 </div>
 
             </form>

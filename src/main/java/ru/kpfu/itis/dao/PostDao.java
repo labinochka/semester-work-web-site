@@ -39,7 +39,7 @@ public class PostDao {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_SAVE);
-            String date = String.format("%s-%s-%s", post.date().getYear(), post.date().getMonth(),
+            String date = String.format("%s-%s-%s", post.date().getYear() + 1900, post.date().getMonth() + 1,
                     post.date().getDate());
             preparedStatement.setObject(1, post.author().uuid());
             preparedStatement.setString(2, date);
@@ -88,11 +88,11 @@ public class PostDao {
         Post post;
         try {
             post = new Post((UUID) result.getObject("uuid"),
-                    accountService.getById((UUID) result.getObject("author_id")),
-                    (Date) result.getObject("date_of_publication"),
+                    accountService.getById((UUID) result.getObject("author_uuid")),
                     result.getString("title"),
                     result.getString("content"),
-                    result.getString("image"));
+                    result.getString("image"),
+                    (Date) result.getObject("date_of_publication"));
             return post;
 
         } catch (SQLException e) {

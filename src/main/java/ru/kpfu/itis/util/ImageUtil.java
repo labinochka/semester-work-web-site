@@ -1,25 +1,27 @@
 package ru.kpfu.itis.util;
 
+import ru.kpfu.itis.service.AccountService;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 
 public class ImageUtil {
 
-    public static File makeFile(Part part) {
+    static AccountService accountService = new AccountService();
+
+    public static String makeFile(Part part, String fileName, HttpServletRequest req) {
         try {
-            String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-            InputStream content = part.getInputStream();
-            File file = new File(fileName);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[content.available()];
-            content.read(buffer);
+            String filePath = req.getServletContext().getRealPath("/") + "image";
+            InputStream inputStream = part.getInputStream();
+            OutputStream outputStream = new FileOutputStream(filePath + File.separator + fileName);
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
             outputStream.write(buffer);
             outputStream.close();
-            return file;
+            inputStream.close();
+            return "/BeerOK/image/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

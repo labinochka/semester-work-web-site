@@ -40,7 +40,7 @@ public class AccountDao {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_SAVE);
-            String date = String.format("%s-%s-%s", account.birthday().getYear(), account.birthday().getMonth(),
+            String date = String.format("%s-%s-%s", account.birthday().getYear(), account.birthday().getMonth() - 1,
                     account.birthday().getDate());
             preparedStatement.setString(1, account.username());
             preparedStatement.setString(2, account.name());

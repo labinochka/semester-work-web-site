@@ -8,9 +8,9 @@ import java.util.UUID;
 public record Post(
         UUID uuid,
         AccountAuthorDto author,
-        Date date,
         String title,
         String content,
-        String image
+        String image,
+        Date date
 ) {
 }

@@ -5,6 +5,7 @@
     <br>
     <br>
     <div class="post-info">
+        <br>
         <c:forEach items="${post}" var="post">
             <div class="post-card">
                 <h4 class="post-name"><a href="<c:url value="/posts/detail?id=${post.uuid()}"/>">${post.title()}</a></h4>

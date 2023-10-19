@@ -48,11 +48,13 @@ public class AccountService {
     public boolean isNonAnonymous(HttpServletRequest req) {
         HttpSession session = req.getSession();
         Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(COOKIE_NAME)) {
-                String username = cookie.getValue();
-                req.getSession().setAttribute(SESSION_NAME, getByUsernameOrEmail(username));
-                return true;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(COOKIE_NAME)) {
+                    String username = cookie.getValue();
+                    req.getSession().setAttribute(SESSION_NAME, getByUsernameOrEmail(username));
+                    return true;
+                }
             }
         }
         return session.getAttribute(SESSION_NAME) != null;

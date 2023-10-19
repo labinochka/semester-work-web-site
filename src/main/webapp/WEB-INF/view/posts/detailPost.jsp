@@ -9,7 +9,7 @@
         <p class="h1">${post.title()}</p>
         <br>
         <p class="h1">${post.author().username()}</p>
-        <img src="${post.image()}" class="rounded img-thumbnail">
+        <img src="${post.image()}" class="rounded img-thumbnail" alt="MISSING GIF"/>
         <br>
         <br>
         <p>
