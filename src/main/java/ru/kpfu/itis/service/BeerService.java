@@ -27,9 +27,9 @@ public class BeerService {
         }
     }
 
-    public Beer getDetails(UUID uuid) {
+    public Beer getById(UUID uuid) {
         try {
-            return beerDao.getDetail(uuid);
+            return beerDao.getById(uuid);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,5 @@
 package ru.kpfu.itis.dao;
 
-import ru.kpfu.itis.dto.AccountAuthorDto;
 import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
@@ -89,7 +88,7 @@ public class AccountDao {
         }
     }
 
-    public AccountAuthorDto getById(UUID id) throws DbException {
+    public Account getById(UUID id) throws DbException {
         ResultSet resultPrepSet;
         try {
             PreparedStatement prepStatement = connectionProvider.getConnection().prepareStatement(SQL_GET_BY_UUID);
@@ -97,8 +96,7 @@ public class AccountDao {
             resultPrepSet = prepStatement.executeQuery();
             boolean res = resultPrepSet.next();
             if (res) {
-                return new AccountAuthorDto((UUID) resultPrepSet.getObject("uuid"),
-                        resultPrepSet.getString("username"));
+                return extract(resultPrepSet);
             } else {
                 return null;
             }

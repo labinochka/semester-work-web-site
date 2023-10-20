@@ -3,12 +3,11 @@ package ru.kpfu.itis.model;
 import java.util.Date;
 import java.util.UUID;
 
-public record Post(
+public record Comment(
         UUID uuid,
         Account author,
-        String title,
+        Post post,
         String content,
-        String image,
         Date date
 ) {
 }

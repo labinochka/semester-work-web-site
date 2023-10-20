@@ -1,9 +1,10 @@
 package ru.kpfu.itis.servlet.post;
 
 
-import ru.kpfu.itis.dto.PostDto;
+import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.PostService;
+import ru.kpfu.itis.service.FullService;
+import ru.kpfu.itis.service.impl.PostService;
 import ru.kpfu.itis.util.ImageUtil;
 
 import javax.servlet.ServletConfig;
@@ -21,7 +22,7 @@ import java.util.Date;
 @WebServlet("/create")
 public class PostCreateServlet extends HttpServlet {
     AccountService accountService;
-    PostService postService;
+    FullService<Post> postService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -46,9 +47,9 @@ public class PostCreateServlet extends HttpServlet {
         Part image = req.getPart("image");
 
         String[] file = image.getSubmittedFileName().split("\\.");
-        String fileName = file[0] + "author-" + accountService.getAccount(req).uuid().toString() + "." + file[1];
-        PostDto post = new PostDto(accountService.getAccount(req), dateOfPublication, title, content,
-                ImageUtil.makeFile(image, fileName, req));
+        String fileName = title + "-" + "author-" + accountService.getAccount(req).uuid().toString() + "." + file[1];
+        Post post = new Post(null, accountService.getAccount(req), title, content,
+                ImageUtil.makeFile(image, fileName, req), dateOfPublication);
         postService.save(post);
         resp.sendRedirect(getServletContext().getContextPath() + "/posts/list");
 

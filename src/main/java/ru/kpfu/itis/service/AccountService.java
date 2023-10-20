@@ -1,7 +1,6 @@
 package ru.kpfu.itis.service;
 
 import ru.kpfu.itis.dao.AccountDao;
-import ru.kpfu.itis.dto.AccountAuthorDto;
 import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
@@ -90,7 +89,7 @@ public class AccountService {
         }
     }
 
-    public AccountAuthorDto getById(UUID id) {
+    public Account getById(UUID id) {
         try {
             return accountDao.getById(id);
         } catch (DbException e) {

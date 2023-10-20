@@ -31,7 +31,7 @@ public class BeerDetailServlet extends HttpServlet {
             resp.getWriter().println("Bad request. No uuid has been provided");
         }
         Beer beer;
-        beer = beerService.getDetails(UUID.fromString(uuid));
+        beer = beerService.getById(UUID.fromString(uuid));
         if (beer == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);

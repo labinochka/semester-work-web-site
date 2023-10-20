@@ -1,7 +1,6 @@
-package ru.kpfu.itis.dao;
+package ru.kpfu.itis.dao.impl;
 
-import ru.kpfu.itis.dto.PostDto;
-import ru.kpfu.itis.model.Beer;
+import ru.kpfu.itis.dao.FullDao;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -15,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class PostDao {
+public class PostDao implements FullDao<Post> {
 
     private ConnectionProvider connectionProvider;
     private AccountService accountService = new AccountService();
@@ -34,7 +33,8 @@ public class PostDao {
         this.connectionProvider = connectionProvider;
     }
 
-    public void save(PostDto post)
+    @Override
+    public void save(Post post)
             throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
@@ -52,6 +52,8 @@ public class PostDao {
             throw new DbException("Can't save user", e);
         }
     }
+
+    @Override
     public List<Post> getAll() throws DbException {
         List<Post> posts = new ArrayList<>();
         try {
@@ -66,7 +68,18 @@ public class PostDao {
         return posts;
     }
 
-    public Post getDetail(UUID uuid) throws DbException {
+    @Override
+    public void delete(UUID id) {
+
+    }
+
+    @Override
+    public void update(Post entity) {
+
+    }
+
+    @Override
+    public Post getById(UUID uuid) throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider
                     .getConnection()

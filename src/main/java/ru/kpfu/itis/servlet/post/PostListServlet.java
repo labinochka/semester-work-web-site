@@ -1,6 +1,6 @@
 package ru.kpfu.itis.servlet.post;
 
-import ru.kpfu.itis.service.PostService;
+import ru.kpfu.itis.service.impl.PostService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

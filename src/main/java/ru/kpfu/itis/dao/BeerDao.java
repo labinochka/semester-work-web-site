@@ -42,7 +42,7 @@ public class BeerDao {
         }
     }
 
-    public Beer getDetail(UUID uuid) throws DbException {
+    public Beer getById(UUID uuid) throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider
                     .getConnection()

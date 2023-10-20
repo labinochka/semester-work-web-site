@@ -8,7 +8,7 @@
     <br>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="signIn" role="tabpanel" aria-labelledby="tab-login">
-            <form id="formRegistration" action="${pageContext.request.contextPath}/create" enctype="multipart/form-data"
+            <form id="formCreatePost" action="${pageContext.request.contextPath}/create" enctype="multipart/form-data"
                   method="post">
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-4">

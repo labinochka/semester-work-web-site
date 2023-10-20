@@ -10,7 +10,7 @@
         <br>
         <p class="h4">Автор: ${post.author().username()}</p>
         <br>
-        <p class="h6">Дата публикации: ${post.date().getDate()}.${post.date().getMonth()}.${post.date().getYear()}</p>
+        <p class="h6">Дата публикации: ${post.date()}</p>
         <img src="${post.image()}" class="rounded img-thumbnail"/>
         <br>
         <br>
@@ -18,6 +18,15 @@
             <font size="5">${post.content()}</font>
         </p>
         <br>
+        <button id="submit" type="submit" class="btn btn-secondary mb-4">Оставить комментарий</button>
+        <c:forEach items="${comment}" var="comment">
+            <div class="comment-card">
+                <h4 class="comment-author">${comment.author().username()}</h4>
+                <h4 class="comment-content">${comment.date().getDate()}.${comment.date().getMonth() + 1}.${comment.date().getYear() + 1900}</h4>
+                <h4 class="comment-content">${comment.content()}</h4>
+                <br>
+            </div>
+        </c:forEach>
     </div>
 </t:mainLayout>
 

@@ -1,7 +1,7 @@
 package ru.kpfu.itis.servlet.post;
 
 import ru.kpfu.itis.model.Post;
-import ru.kpfu.itis.service.PostService;
+import ru.kpfu.itis.service.impl.PostService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -31,7 +31,7 @@ public class PostDetailServlet extends HttpServlet {
             resp.getWriter().println("Bad request. No uuid has been provided");
         }
         Post post;
-        post = postService.getDetails(UUID.fromString(uuid));
+        post = postService.getById(UUID.fromString(uuid));
         if (post == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);

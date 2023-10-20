@@ -2,7 +2,7 @@ package ru.kpfu.itis;
 
 import ru.kpfu.itis.service.AccountService;
 import ru.kpfu.itis.service.BeerService;
-import ru.kpfu.itis.service.PostService;
+import ru.kpfu.itis.service.impl.PostService;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
