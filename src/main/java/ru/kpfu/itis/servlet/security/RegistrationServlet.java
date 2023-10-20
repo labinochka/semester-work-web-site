@@ -45,7 +45,10 @@ public class RegistrationServlet extends HttpServlet {
         Date date = new Date(Integer.parseInt(birthday[2]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[0]));
         Date currentDate = new Date();
 
-        if (accountService.getByUsername(username) != null) {
+        if (!username.matches("^[a-zA-Z0-9]+$")) {
+            req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
+            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
+        } else if (accountService.getByUsername(username) != null) {
             req.setAttribute("error", "Этот логин уже используется");
             req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
         } else if (((currentDate.getYear() + 1900) - date.getYear()) < 18) {
