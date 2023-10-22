@@ -1,6 +1,5 @@
 package ru.kpfu.itis.service.impl;
 
-import ru.kpfu.itis.dao.FullDao;
 import ru.kpfu.itis.dao.impl.PostDao;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.FullService;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 public class PostService implements FullService<Post> {
 
-    private FullDao<Post> postDao;
+    private PostDao postDao;
 
     public PostService() {
         try {
@@ -46,14 +45,26 @@ public class PostService implements FullService<Post> {
     }
 
     @Override
-    public void update(Post entity) {
-
+    public void update(Post post) {
+        try {
+            postDao.update(post);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Post getById(UUID uuid) {
         try {
             return postDao.getById(uuid);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Post> getByAuthor(UUID uuid) {
+        try {
+            return postDao.getByAuthor(uuid);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

@@ -27,7 +27,18 @@ public class PostDao implements FullDao<Post> {
     final static String SQL_GET_ALL = "select * from post";
 
     //language=sql
-    final String SQL_GET_BY_UUID = "select * from post where uuid = cast(? as uuid)";
+    final static String SQL_GET_BY_AUTHOR = "select * from post where author_uuid = cast(? as uuid)";
+
+    //language=sql
+    final static String SQL_GET_BY_UUID = "select * from post where uuid = cast(? as uuid)";
+
+    //language=sql
+    final static String SQL_UPDATE_WITHOUT_IMAGE = "update post set title = ?, content = ?, " +
+            "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
+
+    //language=sql
+    final static String SQL_UPDATE = "update post set title = ?, content = ?, image = ?, " +
+            "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
 
     public PostDao(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -49,7 +60,7 @@ public class PostDao implements FullDao<Post> {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new DbException("Can't save user", e);
+            throw new DbException("Can't save post", e);
         }
     }
 
@@ -74,8 +85,34 @@ public class PostDao implements FullDao<Post> {
     }
 
     @Override
-    public void update(Post entity) {
+    public void update(Post post) throws DbException {
+        try {
+            if (post.image() != null) {
+                PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                        .prepareStatement(SQL_UPDATE);
+                String date = String.format("%s-%s-%s", post.date().getYear() + 1900, post.date().getMonth() + 1,
+                        post.date().getDate());
+                preparedStatement.setString(1, post.title());
+                preparedStatement.setString(2, post.content());
+                preparedStatement.setString(3, post.image());
+                preparedStatement.setString(4, date);
+                preparedStatement.setObject(5, post.uuid());
+                preparedStatement.executeUpdate();
+            } else {
+                PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                        .prepareStatement(SQL_UPDATE_WITHOUT_IMAGE);
+                String date = String.format("%s-%s-%s", post.date().getYear() + 1900, post.date().getMonth() + 1,
+                        post.date().getDate());
+                preparedStatement.setString(1, post.title());
+                preparedStatement.setString(2, post.content());
+                preparedStatement.setString(3, date);
+                preparedStatement.setObject(4, post.uuid());
+                preparedStatement.executeUpdate();
+            }
 
+        } catch (SQLException e) {
+            throw new DbException("Can't update post", e);
+        }
     }
 
     @Override
@@ -95,6 +132,26 @@ public class PostDao implements FullDao<Post> {
         } catch (SQLException e) {
             throw new DbException("Can't get post from db.", e);
         }
+    }
+
+    public List<Post> getByAuthor(UUID uuid) throws DbException {
+        List<Post> posts = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = this.connectionProvider
+                    .getConnection()
+                    .prepareStatement(SQL_GET_BY_AUTHOR);
+            preparedStatement.setString(1, String.valueOf(uuid));
+            ResultSet result = preparedStatement.executeQuery();
+            boolean hasOne = result.next();
+            if (hasOne) {
+                posts.add(extract(result));
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new DbException("Can't get post from db.", e);
+        }
+        return posts;
     }
 
     public Post extract(ResultSet result) throws DbException {

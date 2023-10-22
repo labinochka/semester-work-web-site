@@ -34,7 +34,10 @@ public class AccountService {
     }
 
     public Account getAccount(HttpServletRequest req) {
-        return (Account) req.getSession().getAttribute(SESSION_NAME);
+        if (isNonAnonymous(req)) {
+            return (Account) req.getSession().getAttribute(SESSION_NAME);
+        }
+        return null;
     }
 
     public void deleteSessionAndCookie(HttpServletRequest req, HttpServletResponse resp) {

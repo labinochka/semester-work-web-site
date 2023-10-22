@@ -17,7 +17,7 @@
                                 <p class="small mb-4">${account.name()} ${account.lastname()}</p>
                                 <p class="small mb-4">${account.email()}</p>
                             </div>
-                            <a href="#" class="btn btn-primary btn-sm btn-block">Редактировать</a>
+                            <a href="#" class="btn btn-primary btn-sm btn-block">Редактировать профиль</a>
                             <a href="<c:url value="/sign-out"/>" class="btn btn-outline-secondary btn-sm btn-block">Выйти</a>
                         </div>
                     </div>
@@ -25,6 +25,18 @@
                 <div class="px-4 py-3"><h5 class="mb-0">Обо мне</h5>
                     <div class="p-4 rounded shadow-sm bg-light"><p>${account.about()}</p>
                     </div>
+                </div>
+                <div class="px-4 py-3"><h5 class="mb-0">Мои статьи</h5>
+                    <br>
+                    <c:forEach items="${post}" var="post">
+                        <div class="post-card">
+                            <h6 class="post-name"><a
+                                    href="<c:url value="/posts/detail?id=${post.uuid()}"/>">${post.title()}</a></h6>
+                            <a href="<c:url value="/posts/edit?id=${post.uuid()}"/>" class="btn btn-primary btn-sm btn-block">Редактировать</a>
+                            <a href="#" class="btn btn-outline-secondary btn-sm btn-block">Удалить</a>
+                            <br>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
