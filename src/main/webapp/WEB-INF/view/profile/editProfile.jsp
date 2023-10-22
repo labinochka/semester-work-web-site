@@ -1,14 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<t:mainLayout title="Регистрация">
+<t:mainLayout title="Редактировать профиль">
     <br>
     <br>
     <br>
     <br>
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="registration" role="tabpanel" aria-labelledby="tab-login">
-            <form id="formRegistration" action="${pageContext.request.contextPath}/registration" method="post">
+        <div class="tab-pane fade show active" id="editProfile" role="tabpanel" aria-labelledby="tab-login">
+            <form id="formRegistration" action="${pageContext.request.contextPath}/profile/edit"
+                  enctype="multipart/form-data" method="post">
 
                 <div class="col-md-12 d-flex justify-content-center">
                     <p style="color:red">${error}</p>
@@ -16,7 +17,8 @@
 
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-4">
-                        <input type="text" id="login" name="login" class="form-control" minlength="6" required/>
+                        <input type="text" id="login" name="login" class="form-control" minlength="6"
+                               value="${account.username()}" required>
                         <label class="form-label" for="login">Логин</label>
                     </div>
                 </div>
@@ -24,7 +26,8 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="name" name="name" class="form-control" minlength="2" required/>
+                        <input type="text" id="name" name="name" class="form-control" minlength="2"
+                               value="${account.name()}" required/>
                         <label class="form-label" for="name">Имя</label>
                     </div>
                 </div>
@@ -32,7 +35,8 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="lastname" name="lastname" class="form-control" minlength="2" required/>
+                        <input type="text" id="lastname" name="lastname" class="form-control" minlength="2"
+                               value="${account.lastname()}" required/>
                         <label class="form-label" for="lastname">Фамилия</label>
                     </div>
                 </div>
@@ -40,15 +44,8 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="birthday" name="birthday" class="form-control" minlength="10" required/>
-                        <label class="form-label" for="birthday">Дата рождения DD.MM.YYYY</label>
-                    </div>
-                </div>
-
-                <div class="col-md-12 d-flex justify-content-center">
-                    <div class="form-outline m-lg-2">
-
-                        <input type="text" id="email" name="email" class="form-control" minlength="5" required/>
+                        <input type="text" id="email" name="email" class="form-control" minlength="5"
+                               value="${account.email()}" required/>
                         <label class="form-label" for="email">Электронная почта</label>
                     </div>
                 </div>
@@ -56,29 +53,24 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="password" id="password" name="password" class="form-control" minlength="6"
-                               required/>
-                        <label class="form-label" for="password">Пароль</label>
+                        <textarea type="text" id="about" name="about" class="form-control" minlength="1" maxlength="70" rows="5"
+                                  cols="30" required>${account.about()}</textarea>
+                        <label class="form-label" for="about">Обо мне</label>
                     </div>
                 </div>
-
-                <div class="col-md-12 d-flex justify-content-center">
-                    <div class="form-outline m-lg-2">
-
-                        <input type="password" id="repeatPassword" name="repeatPassword" class="form-control"
-                               minlength="6" required/>
-                        <label class="form-label" for="repeatPassword">Пароль еще раз</label>
-                    </div>
-                </div>
-
 
                 <div class="d-flex justify-content-center">
-                    <button id="signInBtn" type="submit" class="btn btn-primary mb-4">Зарегистрироваться</button>
+                    <input id="image" name="image" type="file" accept=".jpg, .png, .jpeg"
+                           class="btn btn-secondary mb-4">Изменить фото профиля</input>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button id="update" type="submit" class="btn btn-primary mb-4">Сохранить изменения</button>
                 </div>
 
             </form>
             <div class="d-flex justify-content-center">
-                <a href="<c:url value="/sign-in"/>">
+                <a href="<c:url value="/profile"/>">
                     <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
                         Назад
                     </button>

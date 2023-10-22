@@ -17,7 +17,7 @@
                                 <p class="small mb-4">${account.name()} ${account.lastname()}</p>
                                 <p class="small mb-4">${account.email()}</p>
                             </div>
-                            <a href="#" class="btn btn-primary btn-sm btn-block">Редактировать профиль</a>
+                            <a href="<c:url value="/profile/edit"/>" class="btn btn-primary btn-sm btn-block">Редактировать профиль</a>
                             <a href="<c:url value="/sign-out"/>" class="btn btn-outline-secondary btn-sm btn-block">Выйти</a>
                         </div>
                     </div>

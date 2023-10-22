@@ -7,8 +7,9 @@
     <br>
     <br>
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="tab-login">
-            <form id="formCreatePost" action="${pageContext.request.contextPath}/posts/edit" enctype="multipart/form-data"
+        <div class="tab-pane fade show active" id="editPost" role="tabpanel" aria-labelledby="tab-login">
+            <form id="formCreatePost" action="${pageContext.request.contextPath}/posts/edit"
+                  enctype="multipart/form-data"
                   method="post">
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-4">
@@ -34,8 +35,14 @@
                 <div class="d-flex justify-content-center">
                     <button id="submit" type="submit" class="btn btn-primary mb-4">Сохранить изменения</button>
                 </div>
-
             </form>
+            <div class="d-flex justify-content-center">
+                <a href="<c:url value="/profile"/>">
+                    <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
+                        Назад
+                    </button>
+                </a>
+            </div>
             <br>
             <br>
         </div>

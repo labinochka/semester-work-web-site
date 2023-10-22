@@ -7,7 +7,7 @@
     <br>
     <br>
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="tab-login">
+        <div class="tab-pane fade show active" id="createPost" role="tabpanel" aria-labelledby="tab-login">
             <form id="formCreatePost" action="${pageContext.request.contextPath}/create" enctype="multipart/form-data"
                   method="post">
                 <div class="col-md-12 d-flex justify-content-center">

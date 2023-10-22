@@ -20,20 +20,20 @@ public class PostDao implements FullDao<Post> {
     private AccountService accountService = new AccountService();
 
     //language=sql
-    final static String SQL_SAVE = "insert into post(author_uuid, date_of_publication, title, content, image) " +
+    final String SQL_SAVE = "insert into post(author_uuid, date_of_publication, title, content, image) " +
             "values(cast(? as uuid), cast(? as date), ?, ?, ?)";
 
     //language=sql
-    final static String SQL_GET_ALL = "select * from post";
+    final String SQL_GET_ALL = "select * from post";
 
     //language=sql
-    final static String SQL_GET_BY_AUTHOR = "select * from post where author_uuid = cast(? as uuid)";
+    final String SQL_GET_BY_AUTHOR = "select * from post where author_uuid = cast(? as uuid)";
 
     //language=sql
-    final static String SQL_GET_BY_UUID = "select * from post where uuid = cast(? as uuid)";
+    final String SQL_GET_BY_UUID = "select * from post where uuid = cast(? as uuid)";
 
     //language=sql
-    final static String SQL_UPDATE_WITHOUT_IMAGE = "update post set title = ?, content = ?, " +
+    final String SQL_UPDATE_WITHOUT_IMAGE = "update post set title = ?, content = ?, " +
             "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
 
     //language=sql

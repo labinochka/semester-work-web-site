@@ -2,6 +2,7 @@ package ru.kpfu.itis.service;
 
 import ru.kpfu.itis.dao.AccountDao;
 import ru.kpfu.itis.dto.AccountRegistrationDto;
+import ru.kpfu.itis.dto.AccountUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -71,6 +72,14 @@ public class AccountService {
     public void save(AccountRegistrationDto account) {
         try {
             accountDao.save(account);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void update(AccountUpdateDto account) {
+        try {
+            accountDao.update(account);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

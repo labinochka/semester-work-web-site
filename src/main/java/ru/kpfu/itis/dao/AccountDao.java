@@ -1,6 +1,7 @@
 package ru.kpfu.itis.dao;
 
 import ru.kpfu.itis.dto.AccountRegistrationDto;
+import ru.kpfu.itis.dto.AccountUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -17,7 +18,7 @@ public class AccountDao {
     private ConnectionProvider connectionProvider;
 
     //language=sql
-    final static String SQL_SAVE = "insert into account(username, name, lastname, birthday, email, password) " +
+    final String SQL_SAVE = "insert into account(username, name, lastname, birthday, email, password) " +
             "values(?, ?, ?, cast(? as date), ?, ?)";
 
     //language=sql
@@ -28,6 +29,14 @@ public class AccountDao {
 
     //language=sql
     final String SQL_GET_BY_UUID = "select * from account where uuid = cast(? as uuid)";
+
+    //language=sql
+    final String SQL_UPDATE = "update account set username = ?, name = ?, lastname = ?, email = ?, about = ?, avatar = ? " +
+            "where uuid = cast(? as uuid)";
+
+    //language=sql
+    final String SQL_UPDATE_WITHOUT_AVATAR = "update account set username = ?, name = ?, lastname = ?, email = ?, " +
+            "about = ? where uuid = cast(? as uuid)";
 
     public AccountDao(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -53,6 +62,37 @@ public class AccountDao {
             throw new DbException("Can't save user", e);
         }
     }
+
+    public void update(AccountUpdateDto account) throws DbException {
+        try {
+            if (account.avatar() != null) {
+                PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                        .prepareStatement(SQL_UPDATE);
+                preparedStatement.setString(1, account.username());
+                preparedStatement.setString(2, account.name());
+                preparedStatement.setString(3, account.lastname());
+                preparedStatement.setString(4, account.email());
+                preparedStatement.setString(5, account.about());
+                preparedStatement.setString(6, account.avatar());
+                preparedStatement.setObject(7, account.uuid());
+                preparedStatement.executeUpdate();
+
+            } else {
+                PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                        .prepareStatement(SQL_UPDATE_WITHOUT_AVATAR);
+                preparedStatement.setString(1, account.username());
+                preparedStatement.setString(2, account.name());
+                preparedStatement.setString(3, account.lastname());
+                preparedStatement.setString(4, account.email());
+                preparedStatement.setString(5, account.about());
+                preparedStatement.setObject(6, account.uuid());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DbException("Can't update account from db.", e);
+        }
+    }
+
 
     public Account getByUsername(String username) throws DbException {
         ResultSet resultPrepSet;
