@@ -36,13 +36,6 @@
                     <button id="submit" type="submit" class="btn btn-primary mb-4">Сохранить изменения</button>
                 </div>
             </form>
-            <div class="d-flex justify-content-center">
-                <a href="<c:url value="/profile"/>">
-                    <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
-                        Назад
-                    </button>
-                </a>
-            </div>
             <br>
             <br>
         </div>

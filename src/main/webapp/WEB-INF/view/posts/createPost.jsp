@@ -34,7 +34,6 @@
                 <div class="d-flex justify-content-center">
                     <button id="submit" type="submit" class="btn btn-primary mb-4">Опубликовать</button>
                 </div>
-
             </form>
             <br>
             <br>

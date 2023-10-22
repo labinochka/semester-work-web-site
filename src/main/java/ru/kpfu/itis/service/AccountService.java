@@ -36,7 +36,8 @@ public class AccountService {
 
     public Account getAccount(HttpServletRequest req) {
         if (isNonAnonymous(req)) {
-            return (Account) req.getSession().getAttribute(SESSION_NAME);
+            Account account = (Account) req.getSession().getAttribute(SESSION_NAME);
+            return getById(account.uuid());
         }
         return null;
     }

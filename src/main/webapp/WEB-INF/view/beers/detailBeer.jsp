@@ -11,14 +11,9 @@
         <img src="${beer.image()}" class="rounded img-thumbnail">
         <br>
         <br>
-        <p>
+        <p align="left" style="white-space: pre-wrap;">
             <font size="5">${beer.content()}</font>
         </p>
         <br>
-        <a href="<c:url value="/types/list"/>">
-            <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
-                Назад
-            </button>
-        </a>
     </div>
 </t:mainLayout>

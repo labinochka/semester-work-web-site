@@ -17,7 +17,8 @@
                                 <p class="small mb-4">${account.name()} ${account.lastname()}</p>
                                 <p class="small mb-4">${account.email()}</p>
                             </div>
-                            <a href="<c:url value="/profile/edit"/>" class="btn btn-primary btn-sm btn-block">Редактировать профиль</a>
+                            <a href="<c:url value="/profile/edit"/>" class="btn btn-primary btn-sm btn-block">Редактировать
+                                профиль</a>
                             <a href="<c:url value="/sign-out"/>" class="btn btn-outline-secondary btn-sm btn-block">Выйти</a>
                         </div>
                     </div>
@@ -32,7 +33,8 @@
                         <div class="post-card">
                             <h6 class="post-name"><a
                                     href="<c:url value="/posts/detail?id=${post.uuid()}"/>">${post.title()}</a></h6>
-                            <a href="<c:url value="/posts/edit?id=${post.uuid()}"/>" class="btn btn-primary btn-sm btn-block">Редактировать</a>
+                            <a href="<c:url value="/posts/edit?id=${post.uuid()}"/>"
+                               class="btn btn-primary btn-sm btn-block">Редактировать</a>
                             <a href="#" class="btn btn-outline-secondary btn-sm btn-block">Удалить</a>
                             <br>
                         </div>

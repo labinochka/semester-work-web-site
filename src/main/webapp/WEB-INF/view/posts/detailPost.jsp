@@ -8,13 +8,15 @@
         <br>
         <p class="h1">${post.title()}</p>
         <br>
-        <p class="h4">Автор: ${post.author().username()}</p>
+        <p class="h4"><a
+                href="<c:url value="/someone?username=${post.author().username()}"/>">${post.author().username()}</a>
+        </p>
         <br>
         <p class="h6">Дата публикации: ${post.date()}</p>
         <img src="${post.image()}" class="rounded img-thumbnail"/>
         <br>
         <br>
-        <p>
+        <p align="left" style="white-space: pre-wrap;">
             <font size="5">${post.content()}</font>
         </p>
         <br>
@@ -27,11 +29,6 @@
                 <br>
             </div>
         </c:forEach>
-        <a href="<c:url value="/posts/list"/>">
-            <button id="exit" type="button" class="btn btn-outline-secondary mb-4">
-                Назад
-            </button>
-        </a>
     </div>
 </t:mainLayout>
 
