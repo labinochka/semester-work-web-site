@@ -121,14 +121,15 @@ create table if not exists post
     constraint post_author_fk foreign key (author_uuid) references account (uuid)
 );
 
-create table if not exists comment  (
-    uuid uuid not null default uuid_generate_v4(),
-    author_uuid uuid not null,
-    post_uuid uuid not null,
-    content varchar not null,
-    date_of_publication date not null,
+create table if not exists comment
+(
+    uuid                uuid    not null default uuid_generate_v4(),
+    author_uuid         uuid    not null,
+    post_uuid           uuid    not null,
+    content             varchar not null,
+    date_of_publication date    not null,
 
     constraint comment_uuid_pk primary key (uuid),
-    constraint comment_author_uuid foreign key (author_uuid) references account(uuid),
-    constraint comment_post_uuid foreign key (post_uuid) references post(uuid)
-)
+    constraint comment_author_uuid foreign key (author_uuid) references account (uuid),
+    constraint comment_post_uuid foreign key (post_uuid) references post (uuid)
+)пш
