@@ -132,4 +132,4 @@ create table if not exists comment
     constraint comment_uuid_pk primary key (uuid),
     constraint comment_author_uuid foreign key (author_uuid) references account (uuid),
     constraint comment_post_uuid foreign key (post_uuid) references post (uuid)
-)пш
+)
