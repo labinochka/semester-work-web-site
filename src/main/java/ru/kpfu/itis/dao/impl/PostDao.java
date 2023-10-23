@@ -142,11 +142,8 @@ public class PostDao implements FullDao<Post> {
                     .prepareStatement(SQL_GET_BY_AUTHOR);
             preparedStatement.setString(1, String.valueOf(uuid));
             ResultSet result = preparedStatement.executeQuery();
-            boolean hasOne = result.next();
-            if (hasOne) {
+            while (result.next()) {
                 posts.add(extract(result));
-            } else {
-                return null;
             }
         } catch (SQLException e) {
             throw new DbException("Can't get post from db.", e);

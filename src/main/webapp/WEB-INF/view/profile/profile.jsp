@@ -37,6 +37,7 @@
                                class="btn btn-primary btn-sm btn-block">Редактировать</a>
                             <a href="#" class="btn btn-outline-secondary btn-sm btn-block">Удалить</a>
                             <br>
+                            <br>
                         </div>
                     </c:forEach>
                 </div>

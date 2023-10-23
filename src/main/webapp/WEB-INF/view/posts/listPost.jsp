@@ -5,6 +5,7 @@
     <br>
     <br>
     <div class="post-info">
+        <br>
         <p class="h1">Статьи</p>
         <br>
         <c:forEach items="${post}" var="post">
