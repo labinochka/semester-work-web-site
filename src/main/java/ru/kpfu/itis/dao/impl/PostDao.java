@@ -64,7 +64,6 @@ public class PostDao implements FullDao<Post> {
         }
     }
 
-    @Override
     public List<Post> getAll() throws DbException {
         List<Post> posts = new ArrayList<>();
         try {
@@ -151,6 +150,7 @@ public class PostDao implements FullDao<Post> {
         return posts;
     }
 
+    @Override
     public Post extract(ResultSet result) throws DbException {
         Post post;
         try {

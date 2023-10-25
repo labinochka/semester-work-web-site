@@ -9,7 +9,6 @@ public interface FullService<T> {
 
     void save(T entity);
     T getById(UUID uuid);
-    List<T> getAll();
     void delete(UUID id);
     void update(T entity);
 }

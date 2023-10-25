@@ -2,6 +2,7 @@ package ru.kpfu.itis;
 
 import ru.kpfu.itis.service.AccountService;
 import ru.kpfu.itis.service.BeerService;
+import ru.kpfu.itis.service.impl.CommentService;
 import ru.kpfu.itis.service.impl.PostService;
 
 import javax.servlet.ServletContextEvent;
@@ -16,5 +17,6 @@ public class InitListener implements ServletContextListener {
         sce.getServletContext().setAttribute("beerService", new BeerService());
         sce.getServletContext().setAttribute("accountService", new AccountService());
         sce.getServletContext().setAttribute("postService", new PostService());
+        sce.getServletContext().setAttribute("commentService", new CommentService());
     }
 }

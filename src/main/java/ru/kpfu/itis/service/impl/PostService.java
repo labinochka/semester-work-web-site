@@ -30,7 +30,6 @@ public class PostService implements FullService<Post> {
         }
     }
 
-    @Override
     public List<Post> getAll() {
         try {
             return postDao.getAll();
