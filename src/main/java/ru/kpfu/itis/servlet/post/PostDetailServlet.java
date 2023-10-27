@@ -50,20 +50,13 @@ public class PostDetailServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);
         }
-        List<Comment> comments = commentService.getAllByPostId(UUID.fromString(uuid));
-        List<CommentEditDto> commentsEditDto = new ArrayList<>();
+
         Account account = accountService.getCurrentAccount(req);
-        for (Comment comment: comments) {
-            if (account != null && comment.author().uuid().equals(account.uuid())) {
-                commentsEditDto.add(new CommentEditDto(comment.uuid(), comment.author(), comment.post(),
-                        comment.content(), comment.date(), true));
-            } else {
-                commentsEditDto.add(new CommentEditDto(comment.uuid(), comment.author(), comment.post(),
-                        comment.content(), comment.date(), false));
-            }
-        }
+        List<CommentEditDto> comments = commentService.getAllByPostId(UUID.fromString(uuid), account);
+
+
         req.setAttribute("post", post);
-        req.setAttribute("comment", commentsEditDto);
+        req.setAttribute("comment", comments);
         req.getRequestDispatcher("/WEB-INF/view/posts/detailPost.jsp").forward(req, resp);
     }
 

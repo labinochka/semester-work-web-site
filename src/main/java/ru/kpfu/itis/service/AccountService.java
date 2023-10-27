@@ -25,9 +25,11 @@ public interface AccountService {
 
     void addCookie(String username, HttpServletResponse resp);
 
+    boolean register(AccountRegistrationDto account, HttpServletRequest req, String repeatPassword);
+
     void save(AccountRegistrationDto account);
 
-    void update(AccountUpdateDto account);
+    boolean update(AccountUpdateDto account, Account oldAccount, HttpServletRequest req);
 
     Account getByUsername(String username);
 
@@ -38,4 +40,5 @@ public interface AccountService {
     Account getByUsernameAndPassword(String username, String password);
 
     Account getByUsernameOrEmail(String username);
+
 }

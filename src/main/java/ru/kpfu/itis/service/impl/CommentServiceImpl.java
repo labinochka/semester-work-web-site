@@ -1,6 +1,8 @@
 package ru.kpfu.itis.service.impl;
 
 import ru.kpfu.itis.dao.CommentDao;
+import ru.kpfu.itis.dto.CommentEditDto;
+import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.service.CommentService;
 import ru.kpfu.itis.util.DbException;
@@ -31,9 +33,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllByPostId(UUID uuid) {
+    public List<CommentEditDto> getAllByPostId(UUID uuid, Account currentAccount) {
         try {
-            return commentDao.getAllByPostId(uuid);
+            List<CommentEditDto> comments = commentDao.getAllByPostId(uuid);
+            for (CommentEditDto comment : comments) {
+                if (currentAccount != null && comment.getAuthor().uuid().equals(currentAccount.uuid())) {
+                    comment.setEdit(true);
+                }
+            }
+            return comments;
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
@@ -49,12 +57,4 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    @Override
-    public List<Comment> getByAuthorAndPost(UUID authorId, UUID postId) {
-        try {
-            return commentDao.getByAuthorAndPost(authorId, postId);
-        } catch (DbException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

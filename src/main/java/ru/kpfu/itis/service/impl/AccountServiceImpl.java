@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.UUID;
 
 public class AccountServiceImpl implements AccountService {
@@ -72,6 +73,31 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public boolean register(AccountRegistrationDto account, HttpServletRequest req, String repeatPassword) {
+        Date currentDate = new Date();
+
+        if (!account.username().matches("^[a-zA-Z0-9]+$")) {
+            req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
+            return false;
+        } else if (getByUsername(account.username()) != null) {
+            req.setAttribute("error", "Этот логин уже используется");
+            return false;
+        } else if (((currentDate.getYear() + 1900) - account.birthday().getYear()) < 18) {
+            req.setAttribute("error", "Вам нет 18");
+            return false;
+        } else if (getByEmail(account.email()) != null) {
+            req.setAttribute("error", "Аккаунт с этой почтой уже существует");
+            return false;
+        } else if (!account.password().equals(repeatPassword)) {
+            req.setAttribute("error", "Пароли не совпадают");
+            return false;
+        } else {
+            save(account);
+            return true;
+        }
+    }
+
+    @Override
     public void save(AccountRegistrationDto account) {
         try {
             accountDao.save(account);
@@ -81,9 +107,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void update(AccountUpdateDto account) {
+    public boolean update(AccountUpdateDto updatedAccount, Account oldAccount, HttpServletRequest req) {
         try {
-            accountDao.update(account);
+            if (!updatedAccount.username().matches("^[a-zA-Z0-9]+$")) {
+                req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
+                return false;
+            } else if (getByUsername(updatedAccount.username()) != null && !oldAccount.username().equals(updatedAccount.username())) {
+                req.setAttribute("error", "Этот логин уже используется");
+                return false;
+            } else if (getByEmail(updatedAccount.email()) != null && !oldAccount.email().equals(updatedAccount.email())) {
+                req.setAttribute("error", "Аккаунт с этой почтой уже существует");
+                return false;
+            } else {
+                accountDao.update(updatedAccount);
+                return true;
+            }
         } catch (DbException e) {
             throw new RuntimeException(e);
         }

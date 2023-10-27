@@ -46,28 +46,21 @@ public class ProfileEditServlet extends HttpServlet {
 
         Account account = accountService.getCurrentAccount(req);
 
-        if (!username.matches("^[a-zA-Z0-9]+$")) {
-            req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
-            req.getRequestDispatcher("/WEB-INF/view/profile/editProfile.jsp").forward(req, resp);
-        } else if (accountService.getByUsername(username) != null && !username.equals(account.username())) {
-            req.setAttribute("error", "Этот логин уже используется");
-            req.getRequestDispatcher("/WEB-INF/view/profile/editProfile.jsp").forward(req, resp);
-        } else if (accountService.getByEmail(email) != null && !email.equals(account.email())) {
-            req.setAttribute("error", "Аккаунт с этой почтой уже существует");
-            req.getRequestDispatcher("/WEB-INF/view/profile/editProfile.jsp").forward(req, resp);
-        } else {
-            String[] file = image.getSubmittedFileName().split("\\.");
-            String imageName = null;
+        String[] file = image.getSubmittedFileName().split("\\.");
+        String imageName = null;
 
-            if (file.length > 1) {
-                String fileName = "account-" + account.uuid().toString()+ "." + file[1];
-                imageName = ImageUtil.makeFile(image, fileName, req);
-            }
+        if (file.length > 1) {
+            String fileName = "account-" + account.uuid().toString() + "." + file[1];
+            imageName = ImageUtil.makeFile(image, fileName, req);
+        }
 
-            AccountUpdateDto updatedAccount = new AccountUpdateDto(account.uuid(), username, name,
-                    lastname, email, about, imageName);
-            accountService.update(updatedAccount);
+        AccountUpdateDto updatedAccount = new AccountUpdateDto(account.uuid(), username, name,
+                lastname, email, about, imageName);
+
+        if (accountService.update(updatedAccount, account, req)) {
             resp.sendRedirect(getServletContext().getContextPath() + "/profile");
+        } else {
+            req.getRequestDispatcher("/WEB-INF/view/profile/editProfile.jsp").forward(req, resp);
         }
     }
 }

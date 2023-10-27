@@ -43,28 +43,13 @@ public class RegistrationServlet extends HttpServlet {
         String repeatPassword = req.getParameter("repeatPassword");
 
         Date date = new Date(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[2]));
-        Date currentDate = new Date();
 
-        if (!username.matches("^[a-zA-Z0-9]+$")) {
-            req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
-            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (accountService.getByUsername(username) != null) {
-            req.setAttribute("error", "Этот логин уже используется");
-            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (((currentDate.getYear() + 1900) - date.getYear()) < 18) {
-            req.setAttribute("error", "Вам нет 18");
-            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (accountService.getByEmail(email) != null) {
-            req.setAttribute("error", "Аккаунт с этой почтой уже существует");
-            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else if (!password.equals(repeatPassword)) {
-            System.out.println(password + " " + repeatPassword);
-            req.setAttribute("error", "Пароли не совпадают");
-            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
-        } else {
-            AccountRegistrationDto account = new AccountRegistrationDto(username, name, lastname, date, email, password);
-            accountService.save(account);
+        AccountRegistrationDto account = new AccountRegistrationDto(username, name, lastname, date, email, password);
+        if (accountService.register(account, req, repeatPassword)) {
             resp.sendRedirect(getServletContext().getContextPath() + "/sign-in");
+        } else {
+            req.getRequestDispatcher("/WEB-INF/view/security/registration.jsp").forward(req, resp);
+
         }
     }
 }

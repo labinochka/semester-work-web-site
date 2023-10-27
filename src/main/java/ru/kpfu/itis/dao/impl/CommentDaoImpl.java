@@ -3,6 +3,7 @@ package ru.kpfu.itis.dao.impl;
 import ru.kpfu.itis.dao.AccountDao;
 import ru.kpfu.itis.dao.CommentDao;
 import ru.kpfu.itis.dao.PostDao;
+import ru.kpfu.itis.dto.CommentEditDto;
 import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -63,8 +64,8 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public List<Comment> getAllByPostId(UUID uuid) throws DbException {
-        List<Comment> comments = new ArrayList<>();
+    public List<CommentEditDto> getAllByPostId(UUID uuid) throws DbException {
+        List<CommentEditDto> comments = new ArrayList<>();
         try {
             PreparedStatement prepStatement = this.connectionProvider.getConnection().prepareStatement(SQL_GET_ALL_BY_POST_ID);
             prepStatement.setObject(1, uuid);
@@ -88,32 +89,17 @@ public class CommentDaoImpl implements CommentDao {
 
     }
 
-    @Override
-    public List<Comment> getByAuthorAndPost(UUID authorId, UUID postId) throws DbException {
-        List<Comment> comments = new ArrayList<>();
-        try {
-            PreparedStatement prepStatement = this.connectionProvider.getConnection().prepareStatement(SQL_GET_BY_AUTHOR_AND_POST);
-            prepStatement.setObject(1, postId);
-            prepStatement.setObject(2, authorId);
-            ResultSet resultPrepSet = prepStatement.executeQuery();
-            while (resultPrepSet.next()) {
-                comments.add(extract(resultPrepSet));
-            }
-        } catch (SQLException e) {
-            throw new DbException("Can't get comment from db.", e);
-        }
-        return comments;
-    }
 
     @Override
-    public Comment extract(ResultSet result) throws DbException {
-        Comment comment;
+    public CommentEditDto extract(ResultSet result) throws DbException {
+        CommentEditDto comment;
         try {
-            comment = new Comment((UUID) result.getObject("uuid"),
+            comment = new CommentEditDto((UUID) result.getObject("uuid"),
                     accountDao.getById((UUID) result.getObject("author_uuid")),
                     postDao.getById((UUID) result.getObject("post_uuid")),
                     result.getString("content"),
-                    (Date) result.getObject("date_of_publication"));
+                    (Date) result.getObject("date_of_publication"),
+                    false);
             return comment;
 
         } catch (SQLException e) {

@@ -1,6 +1,8 @@
 package ru.kpfu.itis.service;
 
 
+import ru.kpfu.itis.dto.CommentEditDto;
+import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
 
 import java.util.List;
@@ -12,11 +14,10 @@ public interface CommentService {
 
     Comment getById(UUID uuid);
 
-    List<Comment> getAllByPostId(UUID uuid);
+    List<CommentEditDto> getAllByPostId(UUID uuid, Account currentAccount);
 
     void delete(UUID id);
 
     void update(Comment entity);
 
-    List<Comment> getByAuthorAndPost(UUID authorId, UUID postId);
 }
