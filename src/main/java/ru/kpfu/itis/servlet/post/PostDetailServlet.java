@@ -5,8 +5,8 @@ import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.impl.CommentService;
-import ru.kpfu.itis.service.impl.PostService;
+import ru.kpfu.itis.service.CommentService;
+import ru.kpfu.itis.service.PostService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

@@ -1,24 +1,19 @@
 package ru.kpfu.itis.service.impl;
 
-import ru.kpfu.itis.dao.impl.CommentDao;
+import ru.kpfu.itis.dao.CommentDao;
 import ru.kpfu.itis.model.Comment;
-import ru.kpfu.itis.service.FullService;
-import ru.kpfu.itis.util.ConnectionProvider;
+import ru.kpfu.itis.service.CommentService;
 import ru.kpfu.itis.util.DbException;
 
 import java.util.List;
 import java.util.UUID;
 
-public class CommentService implements FullService<Comment> {
+public class CommentServiceImpl implements CommentService {
 
     private CommentDao commentDao;
 
-    public CommentService() {
-        try {
-            commentDao = new CommentDao(ConnectionProvider.getInstance());
-        } catch (DbException e) {
-            throw new RuntimeException(e);
-        }
+    public CommentServiceImpl(CommentDao commentDao) {
+        this.commentDao = commentDao;
     }
 
     @Override
@@ -35,7 +30,7 @@ public class CommentService implements FullService<Comment> {
         return null;
     }
 
-
+    @Override
     public List<Comment> getAllByPostId(UUID uuid) {
         try {
             return commentDao.getAllByPostId(uuid);
@@ -54,6 +49,7 @@ public class CommentService implements FullService<Comment> {
 
     }
 
+    @Override
     public List<Comment> getByAuthorAndPost(UUID authorId, UUID postId) {
         try {
             return commentDao.getByAuthorAndPost(authorId, postId);

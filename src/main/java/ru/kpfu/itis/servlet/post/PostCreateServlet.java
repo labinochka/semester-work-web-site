@@ -4,7 +4,7 @@ package ru.kpfu.itis.servlet.post;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.impl.PostService;
+import ru.kpfu.itis.service.PostService;
 import ru.kpfu.itis.util.ImageUtil;
 
 import javax.servlet.ServletConfig;

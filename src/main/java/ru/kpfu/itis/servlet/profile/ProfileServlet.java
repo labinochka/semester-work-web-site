@@ -3,7 +3,7 @@ package ru.kpfu.itis.servlet.profile;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.impl.PostService;
+import ru.kpfu.itis.service.impl.PostServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,13 +18,13 @@ import java.util.List;
 public class ProfileServlet extends HttpServlet {
 
     private AccountService accountService;
-    private PostService postService;
+    private PostServiceImpl postService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         accountService = (AccountService) getServletContext().getAttribute("accountService");
-        postService = (PostService) getServletContext().getAttribute("postService");
+        postService = (PostServiceImpl) getServletContext().getAttribute("postService");
     }
 
     @Override

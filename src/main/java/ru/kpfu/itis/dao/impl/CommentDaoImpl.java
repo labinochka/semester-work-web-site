@@ -1,10 +1,9 @@
 package ru.kpfu.itis.dao.impl;
 
-import ru.kpfu.itis.dao.FullDao;
+import ru.kpfu.itis.dao.AccountDao;
+import ru.kpfu.itis.dao.CommentDao;
+import ru.kpfu.itis.dao.PostDao;
 import ru.kpfu.itis.model.Comment;
-import ru.kpfu.itis.model.Post;
-import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.impl.PostService;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
 
@@ -16,12 +15,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class CommentDao implements FullDao<Comment> {
+public class CommentDaoImpl implements CommentDao {
 
     private ConnectionProvider connectionProvider;
 
-    private AccountService accountService = new AccountService();
-    private PostService postService = new PostService();
+    private AccountDao accountDao;
+    private PostDao postDao;
 
     //language=sql
     final String SQL_SAVE = "insert into comment(author_uuid, post_uuid, content, date_of_publication) " +
@@ -34,8 +33,10 @@ public class CommentDao implements FullDao<Comment> {
     final String SQL_GET_BY_AUTHOR_AND_POST = "select * from comment where post_uuid = cast(? as uuid) and author_uuid " +
             "= cast(? as uuid)";
 
-    public CommentDao(ConnectionProvider connectionProvider) {
+    public CommentDaoImpl(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
+        accountDao = new AccountDaoImpl(this.connectionProvider);
+        postDao = new PostDaoImpl(this.connectionProvider);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class CommentDao implements FullDao<Comment> {
         return null;
     }
 
+    @Override
     public List<Comment> getAllByPostId(UUID uuid) throws DbException {
         List<Comment> comments = new ArrayList<>();
         try {
@@ -86,6 +88,7 @@ public class CommentDao implements FullDao<Comment> {
 
     }
 
+    @Override
     public List<Comment> getByAuthorAndPost(UUID authorId, UUID postId) throws DbException {
         List<Comment> comments = new ArrayList<>();
         try {
@@ -107,8 +110,8 @@ public class CommentDao implements FullDao<Comment> {
         Comment comment;
         try {
             comment = new Comment((UUID) result.getObject("uuid"),
-                    accountService.getById((UUID) result.getObject("author_uuid")),
-                    postService.getById((UUID) result.getObject("post_uuid")),
+                    accountDao.getById((UUID) result.getObject("author_uuid")),
+                    postDao.getById((UUID) result.getObject("post_uuid")),
                     result.getString("content"),
                     (Date) result.getObject("date_of_publication"));
             return comment;

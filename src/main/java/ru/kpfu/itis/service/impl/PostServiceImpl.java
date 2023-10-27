@@ -1,24 +1,19 @@
 package ru.kpfu.itis.service.impl;
 
-import ru.kpfu.itis.dao.impl.PostDao;
+import ru.kpfu.itis.dao.PostDao;
 import ru.kpfu.itis.model.Post;
-import ru.kpfu.itis.service.FullService;
-import ru.kpfu.itis.util.ConnectionProvider;
+import ru.kpfu.itis.service.PostService;
 import ru.kpfu.itis.util.DbException;
 
 import java.util.List;
 import java.util.UUID;
 
-public class PostService implements FullService<Post> {
+public class PostServiceImpl implements PostService {
 
     private PostDao postDao;
 
-    public PostService() {
-        try {
-            postDao = new PostDao(ConnectionProvider.getInstance());
-        } catch (DbException e) {
-            throw new RuntimeException(e);
-        }
+    public PostServiceImpl(PostDao postDao) {
+        this.postDao = postDao;
     }
 
     @Override
@@ -30,6 +25,7 @@ public class PostService implements FullService<Post> {
         }
     }
 
+    @Override
     public List<Post> getAll() {
         try {
             return postDao.getAll();
@@ -61,6 +57,7 @@ public class PostService implements FullService<Post> {
         }
     }
 
+    @Override
     public List<Post> getByAuthor(UUID uuid) {
         try {
             return postDao.getByAuthor(uuid);

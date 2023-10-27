@@ -11,67 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BeerDao {
+public interface BeerDao {
 
-    private ConnectionProvider connectionProvider;
+    List<Beer> getBeersBySort(String sort) throws DbException;
 
-    //language=sql
-    final String SQL_GET_BY_SORT = "select * from beer where sort = ?";
+    Beer getById(UUID uuid) throws DbException;
 
-    //language=sql
-    final String SQL_GET_BY_UUID = "select * from beer where uuid = cast(? as uuid)";
+    Beer extract(ResultSet result) throws DbException;
 
-    public BeerDao(ConnectionProvider connectionProvider) {
-        this.connectionProvider = connectionProvider;
-    }
-
-    public List<Beer> getBeersBySort(String sort) throws DbException {
-        List<Beer> beers = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = this.connectionProvider
-                    .getConnection()
-                    .prepareStatement(SQL_GET_BY_SORT);
-            preparedStatement.setString(1, sort);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                beers.add(extract(resultSet));
-            }
-            return beers;
-        } catch (SQLException e) {
-            throw new DbException("Can't get beer from db.", e);
-        }
-    }
-
-    public Beer getById(UUID uuid) throws DbException {
-        try {
-            PreparedStatement preparedStatement = this.connectionProvider
-                    .getConnection()
-                    .prepareStatement(SQL_GET_BY_UUID);
-            preparedStatement.setString(1, String.valueOf(uuid));
-            ResultSet result = preparedStatement.executeQuery();
-            boolean hasOne = result.next();
-            if (hasOne) {
-                return extract(result);
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            throw new DbException("Can't get beer from db.", e);
-        }
-    }
-
-    public Beer extract(ResultSet result) throws DbException {
-        Beer beer;
-        try {
-            beer = new Beer((UUID) result.getObject("uuid"),
-                    result.getString("sort"),
-                    result.getString("type"),
-                    result.getString("image"),
-                    result.getString("content"));
-            return beer;
-
-        } catch (SQLException e) {
-            throw new DbException("Can't get beer from db.", e);
-        }
-    }
 }

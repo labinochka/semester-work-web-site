@@ -1,10 +1,10 @@
 package ru.kpfu.itis.dao.impl;
 
-import ru.kpfu.itis.dao.FullDao;
+import ru.kpfu.itis.dao.AccountDao;
+import ru.kpfu.itis.dao.PostDao;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
-import ru.kpfu.itis.service.AccountService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,10 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class PostDao implements FullDao<Post> {
+public class PostDaoImpl implements PostDao {
 
     private ConnectionProvider connectionProvider;
-    private AccountService accountService = new AccountService();
+    private AccountDao accountDao;
 
     //language=sql
     final String SQL_SAVE = "insert into post(author_uuid, date_of_publication, title, content, image) " +
@@ -40,8 +40,9 @@ public class PostDao implements FullDao<Post> {
     final static String SQL_UPDATE = "update post set title = ?, content = ?, image = ?, " +
             "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
 
-    public PostDao(ConnectionProvider connectionProvider) {
+    public PostDaoImpl(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
+        this.accountDao = new AccountDaoImpl(this.connectionProvider);
     }
 
     @Override
@@ -64,6 +65,7 @@ public class PostDao implements FullDao<Post> {
         }
     }
 
+    @Override
     public List<Post> getAll() throws DbException {
         List<Post> posts = new ArrayList<>();
         try {
@@ -133,6 +135,7 @@ public class PostDao implements FullDao<Post> {
         }
     }
 
+    @Override
     public List<Post> getByAuthor(UUID uuid) throws DbException {
         List<Post> posts = new ArrayList<>();
         try {
@@ -155,7 +158,7 @@ public class PostDao implements FullDao<Post> {
         Post post;
         try {
             post = new Post((UUID) result.getObject("uuid"),
-                    accountService.getById((UUID) result.getObject("author_uuid")),
+                    accountDao.getById((UUID) result.getObject("author_uuid")),
                     result.getString("title"),
                     result.getString("content"),
                     result.getString("image"),

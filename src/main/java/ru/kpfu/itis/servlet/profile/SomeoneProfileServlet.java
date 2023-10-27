@@ -3,7 +3,7 @@ package ru.kpfu.itis.servlet.profile;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
-import ru.kpfu.itis.service.impl.PostService;
+import ru.kpfu.itis.service.impl.PostServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,19 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @WebServlet("/someone")
 public class SomeoneProfileServlet extends HttpServlet {
 
     private AccountService accountService;
-    private PostService postService;
+    private PostServiceImpl postService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         accountService = (AccountService) getServletContext().getAttribute("accountService");
-        postService = (PostService) getServletContext().getAttribute("postService");
+        postService = (PostServiceImpl) getServletContext().getAttribute("postService");
     }
 
     @Override
