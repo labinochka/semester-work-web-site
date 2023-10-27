@@ -40,8 +40,8 @@
                 <div class="col-md-12 d-flex justify-content-center">
                     <div class="form-outline m-lg-2">
 
-                        <input type="text" id="birthday" name="birthday" class="form-control" minlength="10" required/>
-                        <label class="form-label" for="birthday">Дата рождения DD.MM.YYYY</label>
+                        <input type="date" id="birthday" name="birthday" class="form-control" minlength="10" required/>
+                        <label class="form-label" for="birthday">Дата рождения</label>
                     </div>
                 </div>
 

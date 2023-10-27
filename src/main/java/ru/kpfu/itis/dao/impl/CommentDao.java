@@ -30,6 +30,10 @@ public class CommentDao implements FullDao<Comment> {
     //language=sql
     final String SQL_GET_ALL_BY_POST_ID = "select * from comment where post_uuid = cast(? as uuid)";
 
+    //language=sql
+    final String SQL_GET_BY_AUTHOR_AND_POST = "select * from comment where post_uuid = cast(? as uuid) and author_uuid " +
+            "= cast(? as uuid)";
+
     public CommentDao(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
@@ -80,6 +84,22 @@ public class CommentDao implements FullDao<Comment> {
     @Override
     public void update(Comment entity) throws DbException {
 
+    }
+
+    public List<Comment> getByAuthorAndPost(UUID authorId, UUID postId) throws DbException {
+        List<Comment> comments = new ArrayList<>();
+        try {
+            PreparedStatement prepStatement = this.connectionProvider.getConnection().prepareStatement(SQL_GET_BY_AUTHOR_AND_POST);
+            prepStatement.setObject(1, postId);
+            prepStatement.setObject(2, authorId);
+            ResultSet resultPrepSet = prepStatement.executeQuery();
+            while (resultPrepSet.next()) {
+                comments.add(extract(resultPrepSet));
+            }
+        } catch (SQLException e) {
+            throw new DbException("Can't get comment from db.", e);
+        }
+        return comments;
     }
 
     @Override

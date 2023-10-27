@@ -1,5 +1,6 @@
 package ru.kpfu.itis.servlet.post;
 
+import ru.kpfu.itis.dto.CommentEditDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.model.Post;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/posts/detail")
@@ -47,8 +50,20 @@ public class PostDetailServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);
         }
+        List<Comment> comments = commentService.getAllByPostId(UUID.fromString(uuid));
+        List<CommentEditDto> commentsEditDto = new ArrayList<>();
+        Account account = accountService.getCurrentAccount(req);
+        for (Comment comment: comments) {
+            if (account != null && comment.author().uuid().equals(account.uuid())) {
+                commentsEditDto.add(new CommentEditDto(comment.uuid(), comment.author(), comment.post(),
+                        comment.content(), comment.date(), true));
+            } else {
+                commentsEditDto.add(new CommentEditDto(comment.uuid(), comment.author(), comment.post(),
+                        comment.content(), comment.date(), false));
+            }
+        }
         req.setAttribute("post", post);
-        req.setAttribute("comment", commentService.getAllByPostId(UUID.fromString(uuid)));
+        req.setAttribute("comment", commentsEditDto);
         req.getRequestDispatcher("/WEB-INF/view/posts/detailPost.jsp").forward(req, resp);
     }
 
@@ -59,7 +74,7 @@ public class PostDetailServlet extends HttpServlet {
 
         if (accountService.isNonAnonymous(req)) {
             Post post = postService.getById(UUID.fromString(uuid));
-            Account account = accountService.getAccount(req);
+            Account account = accountService.getCurrentAccount(req);
 
             Date dateOfPublication = new Date();
             String content = req.getParameter("content");

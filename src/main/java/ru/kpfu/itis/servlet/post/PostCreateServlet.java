@@ -45,7 +45,7 @@ public class PostCreateServlet extends HttpServlet {
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         Part image = req.getPart("image");
-        Account author = accountService.getAccount(req);
+        Account author = accountService.getCurrentAccount(req);
 
         String[] file = image.getSubmittedFileName().split("\\.");
         String fileName = file[0] + "-author-" + author.uuid().toString() + "." + file[1];

@@ -37,12 +37,12 @@ public class RegistrationServlet extends HttpServlet {
         String username = req.getParameter("login");
         String name = req.getParameter("name");
         String lastname = req.getParameter("lastname");
-        String[] birthday = req.getParameter("birthday").split("\\.");
+        String[] birthday = req.getParameter("birthday").split("-");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("repeatPassword");
 
-        Date date = new Date(Integer.parseInt(birthday[2]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[0]));
+        Date date = new Date(Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]), Integer.parseInt(birthday[2]));
         Date currentDate = new Date();
 
         if (!username.matches("^[a-zA-Z0-9]+$")) {

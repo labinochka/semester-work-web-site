@@ -31,7 +31,7 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
-        Account account = accountService.getAccount(req);
+        Account account = accountService.getCurrentAccount(req);
         List<Post> posts = postService.getByAuthor(account.uuid());
         req.setAttribute("account", account);
         req.setAttribute("post", posts);

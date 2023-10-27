@@ -4,7 +4,6 @@ import ru.kpfu.itis.service.AccountService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
@@ -38,7 +37,7 @@ public class AuthFilter extends HttpFilter {
             res.sendRedirect(req.getContextPath() + "/sign-in");
         } else {
             if (accountService.isNonAnonymous(req)) {
-                req.setAttribute("account", accountService.getAccount(req));
+                req.setAttribute("account", accountService.getCurrentAccount(req));
             }
             chain.doFilter(req, res);
         }

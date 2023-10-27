@@ -34,7 +34,7 @@ public class AccountService {
         req.getSession().setAttribute(SESSION_NAME, account);
     }
 
-    public Account getAccount(HttpServletRequest req) {
+    public Account getCurrentAccount(HttpServletRequest req) {
         if (isNonAnonymous(req)) {
             Account account = (Account) req.getSession().getAttribute(SESSION_NAME);
             return getById(account.uuid());

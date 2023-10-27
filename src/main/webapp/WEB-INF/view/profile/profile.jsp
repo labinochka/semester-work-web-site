@@ -19,12 +19,59 @@
                             </div>
                             <a href="<c:url value="/profile/edit"/>" class="btn btn-primary btn-sm btn-block">Редактировать
                                 профиль</a>
-                            <a href="<c:url value="/sign-out"/>" class="btn btn-outline-secondary btn-sm btn-block">Выйти</a>
+                            <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
+                                    data-bs-target="#exit">Выйти
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="exit" tabindex="-1" aria-labelledby="exitModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exitModalLabel">Выйти</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Закрыть"></button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите выйти?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <a href="<c:url value="/sign-out"/>">
+                                    <button type="submit" value="edit" class="btn btn-primary">Выйти</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="px-4 py-3"><h5 class="mb-0">Обо мне</h5>
                     <div class="p-4 rounded shadow-sm bg-light"><p>${account.about()}</p>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="deleteModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Выйти</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Закрыть"></button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите удалить статью?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                <a href="#">
+                                    <button type="submit" value="edit" class="btn btn-primary">Удалить</button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="px-4 py-3"><h5 class="mb-0">Мои статьи</h5>
@@ -35,7 +82,11 @@
                                     href="<c:url value="/posts/detail?id=${post.uuid()}"/>">${post.title()}</a></h6>
                             <a href="<c:url value="/posts/edit?id=${post.uuid()}"/>"
                                class="btn btn-primary btn-sm btn-block">Редактировать</a>
-                            <a href="#" class="btn btn-outline-secondary btn-sm btn-block">Удалить</a>
+                            <a href="#">
+                                <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
+                                        data-bs-target="#delete">Удалить
+                                </button>
+                            </a>
                             <br>
                             <br>
                         </div>

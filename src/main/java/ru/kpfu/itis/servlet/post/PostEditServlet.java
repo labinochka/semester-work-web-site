@@ -60,7 +60,7 @@ public class PostEditServlet extends HttpServlet {
         Part image = req.getPart("image");
         String[] file = image.getSubmittedFileName().split("\\.");
         Date dateOfUpdate = new Date();
-        Account author = accountService.getAccount(req);
+        Account author = accountService.getCurrentAccount(req);
 
         String imageName = null;
 

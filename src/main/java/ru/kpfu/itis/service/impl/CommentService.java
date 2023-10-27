@@ -53,4 +53,12 @@ public class CommentService implements FullService<Comment> {
     public void update(Comment entity) {
 
     }
+
+    public List<Comment> getByAuthorAndPost(UUID authorId, UUID postId) {
+        try {
+            return commentDao.getByAuthorAndPost(authorId, postId);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

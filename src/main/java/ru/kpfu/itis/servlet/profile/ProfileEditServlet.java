@@ -44,7 +44,7 @@ public class ProfileEditServlet extends HttpServlet {
         String about = req.getParameter("about");
         Part image = req.getPart("image");
 
-        Account account = accountService.getAccount(req);
+        Account account = accountService.getCurrentAccount(req);
 
         if (!username.matches("^[a-zA-Z0-9]+$")) {
             req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
