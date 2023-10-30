@@ -13,7 +13,7 @@ public class CommentEditDto {
     private Post post;
     private String content;
     private Date date;
-    private boolean isEdit = false;
+    private boolean isEdit;
 
     public CommentEditDto(UUID uuid, Account author, Post post, String content, Date date, boolean isEdit) {
         this.uuid = uuid;

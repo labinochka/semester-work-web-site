@@ -35,8 +35,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(UUID id) {
-
+    public void delete(Post post) {
+        try {
+            postDao.delete(post);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

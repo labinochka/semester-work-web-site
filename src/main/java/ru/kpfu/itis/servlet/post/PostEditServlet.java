@@ -24,7 +24,9 @@ public class PostEditServlet extends HttpServlet {
 
     PostService postService;
     AccountService accountService;
+
     String uuid;
+    Post post;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -40,7 +42,6 @@ public class PostEditServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().println("Bad request. No uuid has been provided");
         }
-        Post post;
         post = postService.getById(UUID.fromString(uuid));
         if (post == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -68,9 +69,13 @@ public class PostEditServlet extends HttpServlet {
             String fileName = file[0] + "-author-" + author.uuid().toString()+ "." + file[1];
             imageName = ImageUtil.makeFile(image, fileName, req);
         }
-
-        Post post = new Post(UUID.fromString(uuid), author, title, content, imageName, dateOfUpdate);
-        postService.update(post);
-        resp.sendRedirect(getServletContext().getContextPath() + "/profile");
+        if (author.uuid().equals(post.author().uuid())) {
+            Post postUpdate = new Post(UUID.fromString(uuid), author, title, content, imageName, dateOfUpdate);
+            postService.update(postUpdate);
+            resp.sendRedirect(getServletContext().getContextPath() + "/profile");
+        } else {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);
+        }
     }
 }

@@ -2,6 +2,7 @@ package ru.kpfu.itis.service.impl;
 
 import ru.kpfu.itis.dao.CommentDao;
 import ru.kpfu.itis.dto.CommentEditDto;
+import ru.kpfu.itis.dto.CommentUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.service.CommentService;
@@ -28,8 +29,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment getById(UUID uuid) {
-        return null;
+    public CommentEditDto getById(UUID uuid) {
+        try {
+            return commentDao.getById(uuid);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -48,13 +53,30 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(UUID id) {
-
+    public List<CommentEditDto> getAllByPostId(UUID uuid) {
+        try {
+            return commentDao.getAllByPostId(uuid);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void update(Comment entity) {
+    public void delete(CommentEditDto comment) {
+        try {
+            commentDao.delete(comment);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Override
+    public void update(CommentUpdateDto comment) {
+        try {
+            commentDao.update(comment);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

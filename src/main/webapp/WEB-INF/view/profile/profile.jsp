@@ -53,27 +53,6 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="deleteModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Выйти</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Закрыть"></button>
-                            </div>
-                            <div class="modal-body">
-                                Вы уверены, что хотите удалить статью?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                                <a href="#">
-                                    <button type="submit" value="edit" class="btn btn-primary">Удалить</button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="px-4 py-3"><h5 class="mb-0">Мои статьи</h5>
                     <br>
                     <c:forEach items="${post}" var="post">
@@ -82,7 +61,8 @@
                                     href="<c:url value="/posts/detail?id=${post.uuid()}"/>">${post.title()}</a></h6>
                             <a href="<c:url value="/posts/edit?id=${post.uuid()}"/>"
                                class="btn btn-primary btn-sm btn-block">Редактировать</a>
-                            <a href="#">
+
+                            <a href="<c:url value="/posts/delete?id=${post.uuid()}"/>">
                                 <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
                                         data-bs-target="#delete">Удалить
                                 </button>

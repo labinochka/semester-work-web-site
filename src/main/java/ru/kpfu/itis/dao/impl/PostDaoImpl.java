@@ -37,8 +37,11 @@ public class PostDaoImpl implements PostDao {
             "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
 
     //language=sql
-    final static String SQL_UPDATE = "update post set title = ?, content = ?, image = ?, " +
+    final String SQL_UPDATE = "update post set title = ?, content = ?, image = ?, " +
             "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
+
+    //language=sql
+    final String SQL_DELETE_BY_ID = "delete from post where uuid = cast(? as uuid)";
 
     public PostDaoImpl(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -81,8 +84,15 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public void delete(UUID id) {
-
+    public void delete(Post post) throws DbException {
+        try {
+            PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                    .prepareStatement(SQL_DELETE_BY_ID);
+            preparedStatement.setObject(1, post.uuid());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Can't delete post", e);
+        }
     }
 
     @Override

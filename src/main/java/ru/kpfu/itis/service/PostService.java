@@ -10,7 +10,7 @@ public interface PostService {
 
     List<Post> getAll();
 
-    void delete(UUID id);
+    void delete(Post post);
 
     void update(Post post);
 

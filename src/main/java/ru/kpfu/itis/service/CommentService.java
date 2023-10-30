@@ -2,6 +2,7 @@ package ru.kpfu.itis.service;
 
 
 import ru.kpfu.itis.dto.CommentEditDto;
+import ru.kpfu.itis.dto.CommentUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
 
@@ -12,12 +13,14 @@ public interface CommentService {
 
     void save(Comment comment);
 
-    Comment getById(UUID uuid);
+    CommentEditDto getById(UUID uuid);
 
     List<CommentEditDto> getAllByPostId(UUID uuid, Account currentAccount);
 
-    void delete(UUID id);
+    List<CommentEditDto> getAllByPostId(UUID uuid);
 
-    void update(Comment entity);
+    void delete(CommentEditDto comment);
+
+    void update(CommentUpdateDto comment);
 
 }

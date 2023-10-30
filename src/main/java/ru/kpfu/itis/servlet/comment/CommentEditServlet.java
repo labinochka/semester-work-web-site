@@ -1,12 +1,11 @@
-package ru.kpfu.itis.servlet.post;
+package ru.kpfu.itis.servlet.comment;
 
 import ru.kpfu.itis.dto.CommentEditDto;
+import ru.kpfu.itis.dto.CommentUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
-import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
 import ru.kpfu.itis.service.CommentService;
-import ru.kpfu.itis.service.PostService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,24 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
-@WebServlet("/posts/detail")
-public class PostDetailServlet extends HttpServlet {
-
-    PostService postService;
-    AccountService accountService;
+@WebServlet("/comment/edit")
+public class CommentEditServlet extends HttpServlet {
     CommentService commentService;
+    AccountService accountService;
 
     String uuid;
+    CommentEditDto comment;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        postService = (PostService) getServletContext().getAttribute("postService");
-        accountService = (AccountService) getServletContext().getAttribute("accountService");
         commentService = (CommentService) getServletContext().getAttribute("commentService");
+        accountService = (AccountService) getServletContext().getAttribute("accountService");
     }
 
     @Override
@@ -43,20 +39,13 @@ public class PostDetailServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().println("Bad request. No uuid has been provided");
         }
-        Post post;
-        post = postService.getById(UUID.fromString(uuid));
-        if (post == null) {
+        comment = commentService.getById(UUID.fromString(uuid));
+        if (comment == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);
         }
-
-        Account account = accountService.getCurrentAccount(req);
-        List<CommentEditDto> comments = commentService.getAllByPostId(UUID.fromString(uuid), account);
-
-
-        req.setAttribute("post", post);
-        req.setAttribute("comment", comments);
-        req.getRequestDispatcher("/WEB-INF/view/posts/detailPost.jsp").forward(req, resp);
+        req.setAttribute("comment", comment);
+        req.getRequestDispatcher("/WEB-INF/view/comments/commentEdit.jsp").forward(req, resp);
     }
 
     @Override
@@ -64,18 +53,17 @@ public class PostDetailServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
-        if (accountService.isNonAnonymous(req)) {
-            Post post = postService.getById(UUID.fromString(uuid));
-            Account account = accountService.getCurrentAccount(req);
+        String content = req.getParameter("content");
+        Date dateOfUpdate = new Date();
+        Account author = accountService.getCurrentAccount(req);
 
-            Date dateOfPublication = new Date();
-            String content = req.getParameter("content");
-
-            Comment comment = new Comment(null, account, post, content, dateOfPublication);
-            commentService.save(comment);
-            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + uuid);
+        if (author.uuid().equals(comment.getAuthor().uuid())) {
+            CommentUpdateDto commentUpdate = new CommentUpdateDto(UUID.fromString(uuid), content, dateOfUpdate);
+            commentService.update(commentUpdate);
+            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + comment.getPost().uuid());
         } else {
-            resp.sendRedirect(req.getContextPath() + "/sign-in");
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);
         }
     }
 }

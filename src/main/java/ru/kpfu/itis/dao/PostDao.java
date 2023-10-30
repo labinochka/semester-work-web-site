@@ -15,7 +15,7 @@ public interface PostDao {
 
     Post getById(UUID uuid) throws DbException;
 
-    void delete(UUID id) throws DbException;
+    void delete(Post post) throws DbException;
 
     void update(Post entity) throws DbException;
 

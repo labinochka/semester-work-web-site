@@ -31,26 +31,6 @@
         </form>
     </div>
 
-    <div class="modal fade" id="commentDelete" tabindex="-1" aria-labelledby="commentModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Удалить комментарий</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Закрыть"></button>
-                </div>
-                <div class="modal-body">
-                    Вы уверены, что хотите удалить комментарий?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    <button type="submit" value="edit" class="btn btn-primary">Удалить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <c:forEach items="${comment}" var="comment">
         <div class="comment-card">
             <h5 class="comment-author"><a
@@ -59,11 +39,14 @@
             <h6 class="comment-content">${comment.getDate().getDate()}.${comment.getDate().getMonth() + 1}.${comment.getDate().getYear() + 1900}</h6>
             <h4 class="comment-content">${comment.getContent()}</h4>
             <c:if test="${comment.isEdit() == true}">
-                <a href="#">
+                <a href="<c:url value="/comment/edit?id=${comment.getUuid()}"/>">
                     <button class="btn btn-primary btn-sm btn-block">Редактировать</button>
                 </a>
-                <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
-                   data-bs-target="#commentDelete">Удалить</button>
+                <a href="<c:url value="/comment/delete?id=${comment.getUuid()}"/>">
+                    <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
+                            data-bs-target="#commentDelete">Удалить
+                    </button>
+                </a>
             </c:if>
             <br>
             <br>
