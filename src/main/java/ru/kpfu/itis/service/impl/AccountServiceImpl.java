@@ -85,6 +85,9 @@ public class AccountServiceImpl implements AccountService {
         } else if (((currentDate.getYear() + 1900) - account.birthday().getYear()) < 18) {
             req.setAttribute("error", "Вам нет 18");
             return false;
+        } else if (!account.email().contains("@")) {
+            req.setAttribute("error", "Указана неверная почта");
+            return false;
         } else if (getByEmail(account.email()) != null) {
             req.setAttribute("error", "Аккаунт с этой почтой уже существует");
             return false;
@@ -114,6 +117,9 @@ public class AccountServiceImpl implements AccountService {
                 return false;
             } else if (getByUsername(updatedAccount.username()) != null && !oldAccount.username().equals(updatedAccount.username())) {
                 req.setAttribute("error", "Этот логин уже используется");
+                return false;
+            } else if (!updatedAccount.email().contains("@")) {
+                req.setAttribute("error", "Указана неверная почта");
                 return false;
             } else if (getByEmail(updatedAccount.email()) != null && !oldAccount.email().equals(updatedAccount.email())) {
                 req.setAttribute("error", "Аккаунт с этой почтой уже существует");
