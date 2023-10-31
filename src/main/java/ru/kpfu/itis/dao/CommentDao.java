@@ -13,13 +13,13 @@ public interface CommentDao {
 
     void save(Comment comment) throws DbException;
 
-    CommentEditDto getById(UUID uuid) throws DbException;
+    Comment getById(UUID uuid) throws DbException;
 
-    List<CommentEditDto> getAllByPostId(UUID uuid) throws DbException;
+    List<Comment> getAllByPostId(UUID uuid) throws DbException;
 
-    void delete(CommentEditDto comment) throws DbException;
+    void delete(Comment comment) throws DbException;
 
-    void update(CommentUpdateDto comment) throws DbException;
+    void update(Comment comment) throws DbException;
 
-    CommentEditDto extract(ResultSet result) throws DbException;
+    Comment extract(ResultSet result) throws DbException;
 }

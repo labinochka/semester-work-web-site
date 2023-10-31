@@ -1,6 +1,5 @@
 package ru.kpfu.itis.servlet.comment;
 
-import ru.kpfu.itis.dto.CommentEditDto;
 import ru.kpfu.itis.dto.CommentUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.model.Comment;
@@ -23,7 +22,7 @@ public class CommentEditServlet extends HttpServlet {
     AccountService accountService;
 
     String uuid;
-    CommentEditDto comment;
+    Comment comment;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -57,10 +56,10 @@ public class CommentEditServlet extends HttpServlet {
         Date dateOfUpdate = new Date();
         Account author = accountService.getCurrentAccount(req);
 
-        if (author.uuid().equals(comment.getAuthor().uuid())) {
+        if (author.uuid().equals(comment.author().uuid())) {
             CommentUpdateDto commentUpdate = new CommentUpdateDto(UUID.fromString(uuid), content, dateOfUpdate);
             commentService.update(commentUpdate);
-            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + comment.getPost().uuid());
+            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + comment.post().uuid());
         } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);

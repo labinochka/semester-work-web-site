@@ -1,8 +1,6 @@
 package ru.kpfu.itis.dao.impl;
 
 import ru.kpfu.itis.dao.AccountDao;
-import ru.kpfu.itis.dto.AccountRegistrationDto;
-import ru.kpfu.itis.dto.AccountUpdateDto;
 import ru.kpfu.itis.model.Account;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -44,7 +42,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void save(AccountRegistrationDto account) throws DbException {
+    public void save(Account account) throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_SAVE);
@@ -64,7 +62,7 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void update(AccountUpdateDto account) throws DbException {
+    public void update(Account account) throws DbException {
         try {
             if (account.avatar() != null) {
                 PreparedStatement preparedStatement = this.connectionProvider.getConnection()

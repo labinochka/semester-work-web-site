@@ -34,15 +34,15 @@
     <c:forEach items="${comment}" var="comment">
         <div class="comment-card">
             <h5 class="comment-author"><a
-                    href="<c:url value="/someone?username=${comment.getAuthor().username()}"/>">${comment.getAuthor().username()}</a>
+                    href="<c:url value="/someone?username=${comment.author().username()}"/>">${comment.author().username()}</a>
             </h5>
-            <h6 class="comment-content">${comment.getDate().getDate()}.${comment.getDate().getMonth() + 1}.${comment.getDate().getYear() + 1900}</h6>
-            <h4 class="comment-content">${comment.getContent()}</h4>
+            <h6 class="comment-content">${comment.date().getDate()}.${comment.date().getMonth() + 1}.${comment.date().getYear() + 1900}</h6>
+            <h4 class="comment-content">${comment.content()}</h4>
             <c:if test="${comment.isEdit() == true}">
-                <a href="<c:url value="/comment/edit?id=${comment.getUuid()}"/>">
+                <a href="<c:url value="/comment/edit?id=${comment.uuid()}"/>">
                     <button class="btn btn-primary btn-sm btn-block">Редактировать</button>
                 </a>
-                <a href="<c:url value="/comment/delete?id=${comment.getUuid()}"/>">
+                <a href="<c:url value="/comment/delete?id=${comment.uuid()}"/>">
                     <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
                             data-bs-target="#commentDelete">Удалить
                     </button>

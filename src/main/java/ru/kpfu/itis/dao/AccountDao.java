@@ -15,9 +15,9 @@ import java.util.UUID;
 
 public interface AccountDao {
 
-    void save(AccountRegistrationDto account) throws DbException;
+    void save(Account account) throws DbException;
 
-    void update(AccountUpdateDto account) throws DbException;
+    void update(Account account) throws DbException;
 
     Account getByUsername(String username) throws DbException;
 

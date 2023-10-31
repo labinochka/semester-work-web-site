@@ -11,7 +11,7 @@
             <form id="formCreatePost" action="${pageContext.request.contextPath}/comment/edit"
                   method="post">
               <textarea type="text" id="content" name="content" class="form-control" minlength="1" rows="5"
-                        cols="10" required>${comment.getContent()}</textarea>
+                        cols="10" required>${comment.content()}</textarea>
                 <br>
                 <button id="submit" type="submit" value="create" class="btn btn-secondary mb-4" data-bs-toggle="modal"
                         data-bs-target="#comment">Изменить комментарий

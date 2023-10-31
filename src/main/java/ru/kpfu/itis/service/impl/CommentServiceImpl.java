@@ -8,6 +8,7 @@ import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.service.CommentService;
 import ru.kpfu.itis.util.DbException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentEditDto getById(UUID uuid) {
+    public Comment getById(UUID uuid) {
         try {
             return commentDao.getById(uuid);
         } catch (DbException e) {
@@ -39,21 +40,26 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentEditDto> getAllByPostId(UUID uuid, Account currentAccount) {
+        List<CommentEditDto> commentEditDtos = new ArrayList<>();
         try {
-            List<CommentEditDto> comments = commentDao.getAllByPostId(uuid);
-            for (CommentEditDto comment : comments) {
-                if (currentAccount != null && comment.getAuthor().uuid().equals(currentAccount.uuid())) {
-                    comment.setEdit(true);
+            List<Comment> comments = commentDao.getAllByPostId(uuid);
+            for (Comment comment : comments) {
+                if (currentAccount != null && comment.author().uuid().equals(currentAccount.uuid())) {
+                    commentEditDtos.add(new CommentEditDto(comment.uuid(), comment.author(), comment.post(),
+                            comment.content(), comment.date(), true));
+                } else {
+                    commentEditDtos.add(new CommentEditDto(comment.uuid(), comment.author(), comment.post(),
+                            comment.content(), comment.date(), false));
                 }
             }
-            return comments;
+            return commentEditDtos;
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<CommentEditDto> getAllByPostId(UUID uuid) {
+    public List<Comment> getAllByPostId(UUID uuid) {
         try {
             return commentDao.getAllByPostId(uuid);
         } catch (DbException e) {
@@ -62,7 +68,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(CommentEditDto comment) {
+    public void delete(Comment comment) {
         try {
             commentDao.delete(comment);
         } catch (DbException e) {
@@ -71,8 +77,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void update(CommentUpdateDto comment) {
+    public void update(CommentUpdateDto updateComment) {
         try {
+            Comment comment = new Comment(updateComment.uuid(), null, null, updateComment.content(),
+                    updateComment.date());
             commentDao.update(comment);
         } catch (DbException e) {
             throw new RuntimeException(e);

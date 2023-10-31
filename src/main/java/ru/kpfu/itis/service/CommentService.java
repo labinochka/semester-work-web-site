@@ -13,13 +13,13 @@ public interface CommentService {
 
     void save(Comment comment);
 
-    CommentEditDto getById(UUID uuid);
+    Comment getById(UUID uuid);
 
     List<CommentEditDto> getAllByPostId(UUID uuid, Account currentAccount);
 
-    List<CommentEditDto> getAllByPostId(UUID uuid);
+    List<Comment> getAllByPostId(UUID uuid);
 
-    void delete(CommentEditDto comment);
+    void delete(Comment comment);
 
     void update(CommentUpdateDto comment);
 

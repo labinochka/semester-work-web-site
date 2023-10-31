@@ -1,6 +1,6 @@
 package ru.kpfu.itis.servlet.comment;
 
-import ru.kpfu.itis.dto.CommentEditDto;
+import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.service.AccountService;
 import ru.kpfu.itis.service.CommentService;
 
@@ -29,10 +29,10 @@ public class CommentDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uuid = req.getParameter("id");
-        CommentEditDto comment = commentService.getById(UUID.fromString(uuid));
-        if (accountService.getCurrentAccount(req).uuid().equals(comment.getAuthor().uuid())) {
+        Comment comment = commentService.getById(UUID.fromString(uuid));
+        if (accountService.getCurrentAccount(req).uuid().equals(comment.author().uuid())) {
             commentService.delete(comment);
-            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + comment.getPost().uuid());
+            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + comment.post().uuid());
         } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             getServletContext().getRequestDispatcher("/WEB-INF/view/errors/notfound.jsp").forward(req, resp);

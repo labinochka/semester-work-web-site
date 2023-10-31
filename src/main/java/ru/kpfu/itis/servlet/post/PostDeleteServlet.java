@@ -1,7 +1,7 @@
 package ru.kpfu.itis.servlet.post;
 
-import ru.kpfu.itis.dto.CommentEditDto;
 import ru.kpfu.itis.model.Account;
+import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.model.Post;
 import ru.kpfu.itis.service.AccountService;
 import ru.kpfu.itis.service.CommentService;
@@ -36,11 +36,11 @@ public class PostDeleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uuid = req.getParameter("id");
         Post post = postService.getById(UUID.fromString(uuid));
-        List<CommentEditDto> comments =  commentService.getAllByPostId(UUID.fromString(uuid));
+        List<Comment> comments =  commentService.getAllByPostId(UUID.fromString(uuid));
         Account author = accountService.getCurrentAccount(req);
 
         if (author.uuid().equals(post.author().uuid())) {
-            for(CommentEditDto comment: comments) {
+            for(Comment comment: comments) {
                 commentService.delete(comment);
             }
             postService.delete(post);

@@ -66,7 +66,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public CommentEditDto getById(UUID uuid) throws DbException {
+    public Comment getById(UUID uuid) throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_GET_BY_ID);
@@ -85,8 +85,8 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public List<CommentEditDto> getAllByPostId(UUID uuid) throws DbException {
-        List<CommentEditDto> comments = new ArrayList<>();
+    public List<Comment> getAllByPostId(UUID uuid) throws DbException {
+        List<Comment> comments = new ArrayList<>();
         try {
             PreparedStatement prepStatement = this.connectionProvider.getConnection().prepareStatement(SQL_GET_ALL_BY_POST_ID);
             prepStatement.setObject(1, uuid);
@@ -101,11 +101,11 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public void delete(CommentEditDto comment) throws DbException {
+    public void delete(Comment comment) throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_DELETE_BY_ID);
-            preparedStatement.setObject(1, comment.getUuid());
+            preparedStatement.setObject(1, comment.uuid());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DbException("Can't delete comment", e);
@@ -113,7 +113,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public void update(CommentUpdateDto comment) throws DbException {
+    public void update(Comment comment) throws DbException {
         try {
             PreparedStatement preparedStatement = this.connectionProvider.getConnection()
                     .prepareStatement(SQL_UPDATE);
@@ -131,17 +131,15 @@ public class CommentDaoImpl implements CommentDao {
 
 
     @Override
-    public CommentEditDto extract(ResultSet result) throws DbException {
-        CommentEditDto comment;
+    public Comment extract(ResultSet result) throws DbException {
+        Comment comment;
         try {
-            comment = new CommentEditDto((UUID) result.getObject("uuid"),
+            comment = new Comment((UUID) result.getObject("uuid"),
                     accountDao.getById((UUID) result.getObject("author_uuid")),
                     postDao.getById((UUID) result.getObject("post_uuid")),
                     result.getString("content"),
-                    (Date) result.getObject("date_of_publication"),
-                    false);
+                    (Date) result.getObject("date_of_publication"));
             return comment;
-
         } catch (SQLException e) {
             throw new DbException("Can't get post from db.", e);
         }
