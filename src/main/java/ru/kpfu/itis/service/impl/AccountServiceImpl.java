@@ -20,6 +20,9 @@ public class AccountServiceImpl implements AccountService {
 
     private final String SESSION_NAME = "account";
     private final String COOKIE_NAME = "username";
+    private final String USERNAME_REGEX = "^[a-zA-Z0-9]+$";
+    private final String EMAIL_REGEX = "[A-z0-9_-]+@[A-z0-9_-]+.[a-z]+";
+
     private final static int COOKIE_MAX_AGE = 60 * 60 * 12;
     private final static int COOKIE_MIN_AGE = 0;
 
@@ -76,7 +79,11 @@ public class AccountServiceImpl implements AccountService {
     public boolean register(AccountRegistrationDto account, HttpServletRequest req, String repeatPassword) {
         Date currentDate = new Date();
 
-        if (!account.username().matches("^[a-zA-Z0-9]+$")) {
+        if (account.username().length() < 6 || account.name().length() < 2 || account.lastname().length() < 2
+                || account.email().length() < 5 || account.password().length() < 6) {
+            req.setAttribute("error", "Неверные данные");
+            return false;
+        } else if (!account.username().matches(USERNAME_REGEX)) {
             req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
             return false;
         } else if (getByUsername(account.username()) != null) {
@@ -85,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
         } else if (((currentDate.getYear() + 1900) - account.birthday().getYear()) < 18) {
             req.setAttribute("error", "Вам нет 18");
             return false;
-        } else if (!account.email().contains("@")) {
+        } else if (!account.email().matches(EMAIL_REGEX)) {
             req.setAttribute("error", "Указана неверная почта");
             return false;
         } else if (getByEmail(account.email()) != null) {
@@ -114,13 +121,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean update(AccountUpdateDto updatedAccount, Account oldAccount, HttpServletRequest req) {
         try {
-            if (!updatedAccount.username().matches("^[a-zA-Z0-9]+$")) {
+            if (!updatedAccount.username().matches(USERNAME_REGEX)) {
                 req.setAttribute("error", "Логин может состоять только из латинских букв и цирф");
                 return false;
             } else if (getByUsername(updatedAccount.username()) != null && !oldAccount.username().equals(updatedAccount.username())) {
                 req.setAttribute("error", "Этот логин уже используется");
                 return false;
-            } else if (!updatedAccount.email().contains("@")) {
+            } else if (!updatedAccount.email().matches(EMAIL_REGEX)) {
                 req.setAttribute("error", "Указана неверная почта");
                 return false;
             } else if (getByEmail(updatedAccount.email()) != null && !oldAccount.email().equals(updatedAccount.email())) {

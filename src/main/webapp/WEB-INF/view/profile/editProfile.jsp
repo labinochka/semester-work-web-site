@@ -8,7 +8,7 @@
     <br>
     <div class="tab-content">
         <div class="tab-pane fade show active" id="editProfile" role="tabpanel" aria-labelledby="tab-login">
-            <form id="formRegistration" action="${pageContext.request.contextPath}/profile/edit"
+            <form id="formEdit" action="${pageContext.request.contextPath}/profile/edit"
                   enctype="multipart/form-data" method="post">
 
                 <div class="col-md-12 d-flex justify-content-center">

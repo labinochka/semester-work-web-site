@@ -27,7 +27,7 @@ public class AuthFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         boolean prot = false;
-        for(String path: securedPaths) {
+        for (String path : securedPaths) {
             if (path.equals(req.getRequestURI().substring(req.getContextPath().length()))) {
                 prot = true;
                 break;

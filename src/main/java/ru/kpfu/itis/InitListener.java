@@ -22,10 +22,14 @@ public class InitListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-            sce.getServletContext().setAttribute("beerService", new BeerServiceImpl(new BeerDaoImpl(connectionProvider)));
-            sce.getServletContext().setAttribute("accountService", new AccountServiceImpl(new AccountDaoImpl(connectionProvider)));
-            sce.getServletContext().setAttribute("postService", new PostServiceImpl(new PostDaoImpl(connectionProvider)));
-            sce.getServletContext().setAttribute("commentService", new CommentServiceImpl(new CommentDaoImpl(connectionProvider)));
+            sce.getServletContext().setAttribute("beerService", new BeerServiceImpl(
+                    new BeerDaoImpl(connectionProvider)));
+            sce.getServletContext().setAttribute("accountService", new AccountServiceImpl(
+                    new AccountDaoImpl(connectionProvider)));
+            sce.getServletContext().setAttribute("postService", new PostServiceImpl(
+                    new PostDaoImpl(connectionProvider)));
+            sce.getServletContext().setAttribute("commentService", new CommentServiceImpl(
+                    new CommentDaoImpl(connectionProvider)));
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
