@@ -16,7 +16,7 @@ public class ImageUtil {
             outputStream.write(buffer);
             outputStream.close();
             inputStream.close();
-            return "/BeerOK/image/" + fileName;
+            return req.getServletContext().getContextPath() + "/image/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

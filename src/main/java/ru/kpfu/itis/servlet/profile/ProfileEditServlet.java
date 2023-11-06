@@ -50,7 +50,7 @@ public class ProfileEditServlet extends HttpServlet {
         String imageName = null;
 
         if (file.length > 1) {
-            String fileName = "account-" + account.uuid().toString() + "." + file[1];
+            String fileName = file[0] + "-account-" + account.uuid().toString() + "." + file[1];
             imageName = ImageUtil.makeFile(image, fileName, req);
         }
 
