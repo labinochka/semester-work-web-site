@@ -1,16 +1,11 @@
 package ru.kpfu.itis.service;
 
-import ru.kpfu.itis.dao.AccountDao;
 import ru.kpfu.itis.dto.AccountRegistrationDto;
 import ru.kpfu.itis.dto.AccountUpdateDto;
 import ru.kpfu.itis.model.Account;
-import ru.kpfu.itis.util.ConnectionProvider;
-import ru.kpfu.itis.util.DbException;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 public interface AccountService {

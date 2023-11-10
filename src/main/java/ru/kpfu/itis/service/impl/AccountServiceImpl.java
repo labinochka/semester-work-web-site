@@ -111,7 +111,7 @@ public class AccountServiceImpl implements AccountService {
     public void save(AccountRegistrationDto regAccount) {
         try {
             Account account = new Account(null, regAccount.username(), regAccount.name(), regAccount.lastname(),
-                    regAccount.birthday(), regAccount.email(), regAccount.password(), null, null);
+                    regAccount.birthday(), regAccount.email(), regAccount.password(), null, null, null);
             accountDao.save(account);
         } catch (DbException e) {
             throw new RuntimeException(e);
@@ -136,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
             } else {
                 Account account = new Account(updatedAccount.uuid(), updatedAccount.username(), updatedAccount.name(),
                         updatedAccount.lastname(), null, updatedAccount.email(), null,
-                        updatedAccount.avatar(), updatedAccount.about());
+                        updatedAccount.avatar(), updatedAccount.about(), oldAccount.role());
                 accountDao.update(account);
                 return true;
             }

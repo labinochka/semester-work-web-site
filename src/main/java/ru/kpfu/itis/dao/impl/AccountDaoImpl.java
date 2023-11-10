@@ -2,6 +2,7 @@ package ru.kpfu.itis.dao.impl;
 
 import ru.kpfu.itis.dao.AccountDao;
 import ru.kpfu.itis.model.Account;
+import ru.kpfu.itis.model.Role;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
 import ru.kpfu.itis.util.PasswordUtil;
@@ -164,7 +165,7 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account extract(ResultSet result) throws DbException {
-        Account account = null;
+        Account account;
         try {
             account = new Account((UUID) result.getObject("uuid"),
                     result.getString("username"),
@@ -174,7 +175,9 @@ public class AccountDaoImpl implements AccountDao {
                     result.getString("email"),
                     result.getString("password"),
                     result.getString("avatar"),
-                    result.getString("about"));
+                    result.getString("about"),
+                    new Role(result.getInt("role_id"),
+                            result.getInt("role_id") == 1 ? "admin" : "base"));
             return account;
 
         } catch (SQLException e) {

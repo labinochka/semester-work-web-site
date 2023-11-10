@@ -1,7 +1,5 @@
 package ru.kpfu.itis.dao;
 
-import ru.kpfu.itis.dto.CommentEditDto;
-import ru.kpfu.itis.dto.CommentUpdateDto;
 import ru.kpfu.itis.model.Comment;
 import ru.kpfu.itis.util.DbException;
 

@@ -42,6 +42,9 @@
                 <a href="<c:url value="/comment/edit?id=${comment.uuid()}"/>">
                     <button class="btn btn-primary btn-sm btn-block">Редактировать</button>
                 </a>
+            </c:if>
+            <c:if test="${comment.isEdit() == true || (sessionScope.account != null &&
+            sessionScope.account.role().name() == 'admin')}">
                 <a href="<c:url value="/comment/delete?id=${comment.uuid()}"/>">
                     <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
                             data-bs-target="#commentDelete">Удалить

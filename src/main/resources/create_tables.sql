@@ -86,7 +86,15 @@ VALUES ('04600639-1ada-45e4-b929-2285f5abdc4b', 'Смешанное', 'Раух�
 
 Солод для производства раухбира должен быть высушен. Так как сушка на солнце была возможна не во всех регионах, применялась сушка на открытом огне, как и в случае китайского копчёного чая. Тепло и дым проходили сквозь лежащий на решетке сырой солод и высушивали его, тем самым увеличивая срок хранения. С началом индустриализации возникли новые способы сушки с использованием угля и нефти. Эти технологии были дешевле и постепенно вытеснили старый способ сушки на костре.');
 
+create table if not exists role (
+    id   serial  not null,
+    name varchar not null,
 
+    constraint role_id_pk primary key (id)
+);
+
+insert into role values (1, 'admin');
+insert into role values (2, 'base');
 
 create table if not exists account
 (
@@ -99,13 +107,14 @@ create table if not exists account
     password varchar not null,
     avatar   varchar not null default 'https://mirtex.ru/wp-content/uploads/2023/04/unnamed.jpg',
     about    varchar not null default '-',
+    role_id  varchar not null default 2
 
 
     constraint account_uuid_pk primary key (uuid),
     constraint account_username_uk unique (username),
-    constraint account_email_uk unique (email)
+    constraint account_email_uk unique (email),
+    constraint account_role_fk foreign key (role_id) references role (id)
 );
-
 
 create table if not exists post
 (

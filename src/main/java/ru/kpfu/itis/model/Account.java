@@ -12,6 +12,7 @@ public record Account(
         String email,
         String password,
         String avatar,
-        String about
+        String about,
+        Role role
 ) {
 }
