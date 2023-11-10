@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class AccountServiceImpl implements AccountService {
@@ -173,6 +174,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Account> getAdmins() {
+        try {
+            return accountDao.getAdmins();
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Account getByUsernameAndPassword(String username, String password) {
         try {
             return accountDao.getUserByUsernameAndPassword(username, password);
@@ -187,6 +197,24 @@ public class AccountServiceImpl implements AccountService {
             return getByEmail(username);
         } else {
             return getByUsername(username);
+        }
+    }
+
+    @Override
+    public void addAdmin(Account account) {
+        try {
+            accountDao.addAdmin(account);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteAdmin(Account account) {
+        try {
+            accountDao.deleteAdmin(account);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
         }
     }
 }

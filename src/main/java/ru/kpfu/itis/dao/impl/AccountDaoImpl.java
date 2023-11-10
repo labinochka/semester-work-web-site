@@ -10,7 +10,9 @@ import ru.kpfu.itis.util.PasswordUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class AccountDaoImpl implements AccountDao {
@@ -31,12 +33,18 @@ public class AccountDaoImpl implements AccountDao {
     final String SQL_GET_BY_UUID = "select * from account where uuid = cast(? as uuid)";
 
     //language=sql
+    final String SQL_GET_ADMINS = "select * from account where role_id = 1";
+
+    //language=sql
     final String SQL_UPDATE = "update account set username = ?, name = ?, lastname = ?, email = ?, about = ?, avatar = ? " +
             "where uuid = cast(? as uuid)";
 
     //language=sql
     final String SQL_UPDATE_WITHOUT_AVATAR = "update account set username = ?, name = ?, lastname = ?, email = ?, " +
             "about = ? where uuid = cast(? as uuid)";
+
+    //language=sql
+    final String SQL_UPDATE_ADMIN = "update account set role_id = ? where uuid = cast(? as uuid)";
 
     public AccountDaoImpl(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -144,6 +152,49 @@ public class AccountDaoImpl implements AccountDao {
             }
         } catch (SQLException e) {
             throw new DbException("Can't get account from db.", e);
+        }
+    }
+
+    @Override
+    public List<Account> getAdmins() throws DbException {
+        List<Account> admins = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = this.connectionProvider
+                    .getConnection()
+                    .prepareStatement(SQL_GET_ADMINS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                admins.add(extract(resultSet));
+            }
+            return admins;
+        } catch (SQLException e) {
+            throw new DbException("Can't get admins from db.", e);
+        }
+    }
+
+    @Override
+    public void addAdmin(Account account) throws DbException {
+        try {
+            PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                    .prepareStatement(SQL_UPDATE_ADMIN);
+            preparedStatement.setInt(1, 1);
+            preparedStatement.setObject(2, account.uuid());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Can't update admin.", e);
+        }
+    }
+
+    @Override
+    public void deleteAdmin(Account account) throws DbException {
+        try {
+            PreparedStatement preparedStatement = this.connectionProvider.getConnection()
+                    .prepareStatement(SQL_UPDATE_ADMIN);
+            preparedStatement.setInt(1, 2);
+            preparedStatement.setObject(2, account.uuid());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException("Can't update admin.", e);
         }
     }
 

@@ -22,6 +22,13 @@
                             <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
                                     data-bs-target="#exit">Выйти
                             </button>
+                            <br>
+                            <br>
+                            <c:if test="${sessionScope.account != null && sessionScope.account.role().name() == 'admin'}">
+                                <a href="<c:url value="/admins"/>">
+                                    <button class="btn btn-primary">Список администраторов</button>
+                                </a>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -48,6 +55,8 @@
                     </div>
                 </div>
 
+
+
                 <div class="px-4 py-3"><h5 class="mb-0">Обо мне</h5>
                     <div class="p-4 rounded shadow-sm bg-light"><p>${account.about()}</p>
                     </div>
@@ -63,8 +72,7 @@
                                class="btn btn-primary btn-sm btn-block">Редактировать</a>
 
                             <a href="<c:url value="/posts/delete?id=${post.uuid()}"/>">
-                                <button class="btn btn-outline-secondary btn-sm btn-block" data-bs-toggle="modal"
-                                        data-bs-target="#delete">Удалить
+                                <button class="btn btn-outline-secondary btn-sm btn-block">Удалить
                                 </button>
                             </a>
                             <br>

@@ -6,6 +6,7 @@ import ru.kpfu.itis.model.Account;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.UUID;
 
 public interface AccountService {
@@ -32,8 +33,13 @@ public interface AccountService {
 
     Account getById(UUID id);
 
+    List<Account> getAdmins();
+
     Account getByUsernameAndPassword(String username, String password);
 
     Account getByUsernameOrEmail(String username);
 
+    void addAdmin(Account account);
+
+    void deleteAdmin(Account account);
 }
