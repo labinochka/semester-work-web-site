@@ -11,8 +11,15 @@ public interface BeerDao {
 
     List<Beer> getBeersBySort(String sort) throws DbException;
 
+    Beer getByType(String type) throws DbException;
+
     Beer getById(UUID uuid) throws DbException;
 
     Beer extract(ResultSet result) throws DbException;
 
+    void save(Beer beer) throws DbException;
+
+    void update(Beer beer) throws DbException;
+
+    void delete(Beer beer) throws DbException;
 }

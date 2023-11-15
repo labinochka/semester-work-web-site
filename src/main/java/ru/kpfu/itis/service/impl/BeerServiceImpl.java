@@ -5,6 +5,7 @@ import ru.kpfu.itis.model.Beer;
 import ru.kpfu.itis.service.BeerService;
 import ru.kpfu.itis.util.DbException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,9 +18,9 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<Beer> getBeers(String type) {
+    public List<Beer> getBeers(String sort) {
         try {
-            return beerDao.getBeersBySort(type);
+            return beerDao.getBeersBySort(sort);
         } catch (DbException e) {
             throw new RuntimeException(e);
         }
@@ -33,4 +34,54 @@ public class BeerServiceImpl implements BeerService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Beer getByType(String type) {
+        try {
+            return beerDao.getByType(type);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean save(Beer beer, HttpServletRequest req) {
+        try {
+            if (getByType(beer.type()) != null) {
+                req.setAttribute("error", "Этот тип уже существует");
+                return false;
+            } else {
+                beerDao.save(beer);
+                return true;
+            }
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean update(Beer newBeer, Beer oldBeer, HttpServletRequest req) {
+        try {
+            if (!newBeer.type().equals(oldBeer.type()) && getByType(newBeer.type()) != null) {
+                req.setAttribute("error", "Этот тип уже существует");
+                req.setAttribute("beer", newBeer);
+                return false;
+            } else {
+                beerDao.update(newBeer);
+                return true;
+            }
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void delete(Beer beer) {
+        try {
+            beerDao.delete(beer);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+

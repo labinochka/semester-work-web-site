@@ -15,6 +15,16 @@
         <c:forEach items="${beersAle}" var="beer">
             <div class="beer-card">
                 <h4 class="beer-name"><a href="<c:url value="/types/detail?id=${beer.uuid()}"/>">${beer.type()}</a></h4>
+                <c:if test="${sessionScope.account != null && sessionScope.account.role().name() == 'admin'}">
+                    <a href="<c:url value="/types/edit?id=${beer.uuid()}"/>">
+                        <button class="btn btn-primary btn-sm btn-block">Редактировать</button>
+                    </a>
+                    <a href="<c:url value="/types/delete?id=${beer.uuid()}"/>">
+                        <button class="btn btn-outline-secondary btn-sm btn-block">Удалить
+                        </button>
+                    </a>
+                    <br>
+                </c:if>
                 <br>
             </div>
         </c:forEach>
@@ -28,7 +38,17 @@
     <div class="beer-info">
         <c:forEach items="${beersLager}" var="beer">
             <div class="beer-card">
-                <h4 class="beer-name"><a href="<c:url value="/types/detail?id=${beer.uuid()}"/>">${beer.type()}</a></h4>
+                <h4 class="beer-name">
+                    <a href="<c:url value="/types/detail?id=${beer.uuid()}"/>">${beer.type()}</a></h4>
+                <c:if test="${sessionScope.account != null && sessionScope.account.role().name() == 'admin'}">
+                    <a href="<c:url value="/types/edit?id=${beer.uuid()}"/>">
+                        <button class="btn btn-primary btn-sm btn-block">Редактировать</button>
+                    </a>
+                    <a href="<c:url value="/types/delete?id=${beer.uuid()}"/>">
+                        <button class="btn btn-outline-secondary btn-sm btn-block">Удалить</button>
+                    </a>
+                    <br>
+                </c:if>
                 <br>
             </div>
         </c:forEach>
@@ -43,8 +63,26 @@
     <br>
     <div class="beer-info">
         <c:forEach items="${beersMixed}" var="beer">
-            <h4 class="beer-name"><a href="<c:url value="/types/detail?id=${beer.uuid()}"/>">${beer.type()}</a></h4>
+            <h4 class="beer-name">
+                <a href="<c:url value="/types/detail?id=${beer.uuid()}"/>">${beer.type()}</a></h4>
+            <c:if test="${sessionScope.account != null && sessionScope.account.role().name() == 'admin'}">
+                <a href="<c:url value="/types/edit?id=${beer.uuid()}"/>">
+                    <button class="btn btn-primary btn-sm btn-block">Редактировать</button>
+                </a>
+                <a href="<c:url value="/types/delete?id=${beer.uuid()}"/>">
+                    <button class="btn btn-outline-secondary btn-sm btn-block">Удалить</button>
+                </a>
+                <br>
+            </c:if>
             <br>
         </c:forEach>
+        <c:if test="${sessionScope.account != null && sessionScope.account.role().name() == 'admin'}">
+            <br>
+            <a href="<c:url value="/types/add"/>">
+                <button type="button" name="button" class="btn btn-outline-primary">Добавить</button>
+            </a>
+        </c:if>
+        <br>
+        <br>
     </div>
 </t:mainLayout>
