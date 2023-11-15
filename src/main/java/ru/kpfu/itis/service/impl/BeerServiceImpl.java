@@ -13,6 +13,8 @@ public class BeerServiceImpl implements BeerService {
 
     private BeerDao beerDao;
 
+    private final String TYPE_REGEX = "[\\p{IsCyrillic}- ]+";
+
     public BeerServiceImpl(BeerDao beerDao) {
         this.beerDao = beerDao;
     }
@@ -50,6 +52,9 @@ public class BeerServiceImpl implements BeerService {
             if (getByType(beer.type()) != null) {
                 req.setAttribute("error", "Этот тип уже существует");
                 return false;
+            } else if (!beer.type().matches(TYPE_REGEX)) {
+                req.setAttribute("error", "Название должно состоять только из букв");
+                return false;
             } else {
                 beerDao.save(beer);
                 return true;
@@ -64,6 +69,10 @@ public class BeerServiceImpl implements BeerService {
         try {
             if (!newBeer.type().equals(oldBeer.type()) && getByType(newBeer.type()) != null) {
                 req.setAttribute("error", "Этот тип уже существует");
+                req.setAttribute("beer", newBeer);
+                return false;
+            } else if (!newBeer.type().matches(TYPE_REGEX)) {
+                req.setAttribute("error", "Название должно состоять только из букв");
                 req.setAttribute("beer", newBeer);
                 return false;
             } else {

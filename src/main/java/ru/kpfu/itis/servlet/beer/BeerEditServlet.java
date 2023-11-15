@@ -74,7 +74,7 @@ public class BeerEditServlet extends HttpServlet {
             if (beerService.update(newBeer, beer, req)) {
                 resp.sendRedirect(getServletContext().getContextPath() + "/types/list");
             } else {
-                req.getRequestDispatcher("/WEB-INF/view/beers/addBeer.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/view/beers/editBeer.jsp").forward(req, resp);
             }
         } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
