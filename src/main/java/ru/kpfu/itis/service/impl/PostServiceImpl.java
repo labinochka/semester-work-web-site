@@ -35,6 +35,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> getByTitle(String title) {
+        try {
+            return postDao.getByTitle(title);
+        } catch (DbException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void delete(Post post) {
         try {
             postDao.delete(post);

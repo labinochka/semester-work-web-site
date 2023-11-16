@@ -33,6 +33,9 @@ public class PostDaoImpl implements PostDao {
     final String SQL_GET_BY_UUID = "select * from post where uuid = cast(? as uuid)";
 
     //language=sql
+    final String SQL_GET_BY_TITLE = "select * from post where lower(title) like ? order by title";
+
+    //language=sql
     final String SQL_UPDATE_WITHOUT_IMAGE = "update post set title = ?, content = ?, " +
             "date_of_publication = cast(? as date) where uuid = cast(? as uuid)";
 
@@ -76,6 +79,24 @@ public class PostDaoImpl implements PostDao {
             ResultSet resultPrepSet = prepStatement.executeQuery();
             while (resultPrepSet.next()) {
                 posts.add(extract(resultPrepSet));
+            }
+        } catch (SQLException e) {
+            throw new DbException("Can't get post from db.", e);
+        }
+        return posts;
+    }
+
+    @Override
+    public List<Post> getByTitle(String title) throws DbException {
+        List<Post> posts = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = this.connectionProvider
+                    .getConnection()
+                    .prepareStatement(SQL_GET_BY_TITLE);
+            preparedStatement.setString(1, "%" + title.toLowerCase() + "%");
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                posts.add(extract(result));
             }
         } catch (SQLException e) {
             throw new DbException("Can't get post from db.", e);

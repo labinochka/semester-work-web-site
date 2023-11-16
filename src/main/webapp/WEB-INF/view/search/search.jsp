@@ -6,16 +6,38 @@
     <br>
     <br>
     <br>
-    <form id="searchForm" action="${pageContext.request.contextPath}/search" method="post">
+    <form id="searchForm" action="${pageContext.request.contextPath}/search/add" method="post">
         <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Поиск" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary">Найти</button>
+            <input type="search" id="title" name="title" class="form-control rounded" placeholder="Поиск статей"
+                   aria-label="Search"
+                   aria-describedby="search-addon" required/>
+            <button type="submit" id="search" class="btn btn-outline-primary">Найти</button>
         </div>
     </form>
-    <c:forEach items="${post}" var="post">
-        <div class="post-card">
-            <h4 class="post-name"><a href="<c:url value="/posts/detail?id=${post.uuid()}"/>">${post.title()}</a></h4>
-            <br>
-        </div>
-    </c:forEach>
+    <br>
+    <div id="post-card" class="post-card">
+    </div>
+    <script>
+        $(document).ready(function() {
+            let form = $("#searchForm")
+
+            form.submit(() => {
+                var title = $("#title").val();
+
+                $.ajax
+                ({
+                    type: "POST",
+                    data: {title: title},
+                    url: "/BeerOK/search/add",
+                    success: function (result) {
+                        $('#post-card').html(result);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+                return false
+            });
+        });
+    </script>
 </t:mainLayout>

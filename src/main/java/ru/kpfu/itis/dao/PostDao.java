@@ -13,6 +13,8 @@ public interface PostDao {
 
     List<Post> getAll() throws DbException;
 
+    List<Post> getByTitle(String title) throws DbException;
+
     Post getById(UUID uuid) throws DbException;
 
     void delete(Post post) throws DbException;

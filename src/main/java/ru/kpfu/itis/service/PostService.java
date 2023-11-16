@@ -10,6 +10,8 @@ public interface PostService {
 
     List<Post> getAll();
 
+    List<Post> getByTitle(String title);
+
     void delete(Post post);
 
     void update(Post post);

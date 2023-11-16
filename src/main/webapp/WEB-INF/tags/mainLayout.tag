@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <title>${title}</title>
     <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/style/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/style/main.css"/>">
 </head>
