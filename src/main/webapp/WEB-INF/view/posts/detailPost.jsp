@@ -21,18 +21,18 @@
         </p>
         <br>
 
-        <form id="formCreateComment" action="${pageContext.request.contextPath}/posts/detail" method="post">
+        <form id="formCreateComment" action="${pageContext.request.contextPath}/comment/add?postId=${post.uuid()}"
+              method="post">
             <textarea type="text" id="content" name="content" class="form-control" minlength="1" rows="5"
                       cols="10" required></textarea>
             <br>
-            <button id="submit" type="submit" value="create" class="btn btn-secondary mb-4" data-bs-toggle="modal"
-                    data-bs-target="#comment">Оставить комментарий
+            <button id="submit" type="submit" value="create" class="btn btn-secondary mb-4">Оставить комментарий
             </button>
         </form>
     </div>
 
-    <c:forEach items="${comment}" var="comment">
-        <div class="comment-card">
+    <div class="comment-card">
+        <c:forEach items="${comment}" var="comment">
             <h5 class="comment-author"><a
                     href="<c:url value="/someone?username=${comment.author().username()}"/>">${comment.author().username()}</a>
             </h5>
@@ -46,13 +46,12 @@
             <c:if test="${comment.isEdit() == true || (sessionScope.account != null &&
             sessionScope.account.role().name() == 'admin')}">
                 <a href="<c:url value="/comment/delete?id=${comment.uuid()}"/>">
-                    <button class="btn btn-outline-secondary btn-sm btn-block">Удалить
-                    </button>
+                    <button class="btn btn-outline-secondary btn-sm btn-block">Удалить</button>
                 </a>
             </c:if>
             <br>
             <br>
-        </div>
-    </c:forEach>
+        </c:forEach>
+    </div>
 </t:mainLayout>
 

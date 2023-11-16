@@ -38,6 +38,8 @@ public class PostDetailServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         uuid = req.getParameter("id");
         if (uuid == null) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -59,23 +61,4 @@ public class PostDetailServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/view/posts/detailPost.jsp").forward(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-
-        if (accountService.isNonAnonymous(req)) {
-            Post post = postService.getById(UUID.fromString(uuid));
-            Account account = accountService.getCurrentAccount(req);
-
-            Date dateOfPublication = new Date();
-            String content = req.getParameter("content");
-
-            Comment comment = new Comment(null, account, post, content, dateOfPublication);
-            commentService.save(comment);
-            resp.sendRedirect(req.getContextPath() + "/posts/detail?id=" + uuid);
-        } else {
-            resp.sendRedirect(req.getContextPath() + "/sign-in");
-        }
-    }
 }
