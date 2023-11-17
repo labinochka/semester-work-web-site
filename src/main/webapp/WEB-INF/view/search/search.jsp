@@ -2,6 +2,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:mainLayout title="Поиск">
+    <script src="<c:url value="/js/ajax_search.js"/>"></script>
     <br>
     <br>
     <br>
@@ -17,27 +18,4 @@
     <br>
     <div id="post-card" class="post-card">
     </div>
-    <script>
-        $(document).ready(function() {
-            let form = $("#searchForm")
-
-            form.submit(() => {
-                var title = $("#title").val();
-
-                $.ajax
-                ({
-                    type: "POST",
-                    data: {title: title},
-                    url: "/BeerOK/search/add",
-                    success: function (result) {
-                        $('#post-card').html(result);
-                    },
-                    error: function () {
-                        alert("error");
-                    }
-                });
-                return false
-            });
-        });
-    </script>
 </t:mainLayout>
